@@ -1,0 +1,12 @@
+com\virtuwear\rest\entity\Referral.class
+com\virtuwear\rest\exception\ResourceNotFoundException.class
+com\virtuwear\rest\service\UserService.class
+com\virtuwear\rest\controller\UserController.class
+com\virtuwear\rest\dto\UserDto.class
+com\virtuwear\rest\entity\DoubleGarment.class
+com\virtuwear\rest\entity\SingleGarment.class
+com\virtuwear\rest\entity\User.class
+com\virtuwear\rest\repository\UserRepository.class
+com\virtuwear\rest\service\implementation\UserServiceImpl.class
+com\virtuwear\rest\RestApplication.class
+com\virtuwear\rest\mapper\UserMapper.class
