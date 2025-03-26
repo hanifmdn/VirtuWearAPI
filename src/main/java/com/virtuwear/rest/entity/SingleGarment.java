@@ -16,16 +16,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "single_garment")
 public class SingleGarment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_single", nullable = false, unique = true)
-    private int idSingle;
-
-    // Relationships
-    @ManyToOne
-    @JoinColumn(name = "uid", nullable = false)
-    private User user;
+    private Long idSingle;
 
     @Column(name = "result_img")
     private String resultImg;
@@ -36,7 +30,6 @@ public class SingleGarment {
     @Column(name = "garment_img")
     private String garmentImg;
 
-
     @Column(name = "outfit_name")
     private String outfitName;
 
@@ -46,7 +39,10 @@ public class SingleGarment {
     @Column(name = "isBookmark")
     private boolean isBookmark;
 
-
+    // Relasi Many-to-One dengan User
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 
     // Date
@@ -61,11 +57,11 @@ public class SingleGarment {
         Timestamp now = Timestamp.valueOf(LocalDateTime.now());
         createdDate = now;
         updatedDate = now;
+
     }
 
     @PreUpdate
     protected void onUpdate() {
         updatedDate = Timestamp.valueOf(LocalDateTime.now());
     }
-
 }

@@ -7,15 +7,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReferralDto {
-    private String referralCode;
-    private Long totalUsed;
-    private Timestamp cooldown;
+public class SingleGarmentDto {
+    private Long idSingle;
+
+    private String resultImg;
+
+    private String modelImg;
+
+    private String garmentImg;
+
+    private String outfitName;
+
+    private String notes;
+
+    private boolean isBookmark;
+
+    private User user;
+
     private Timestamp createdDate;
+
     private Timestamp updatedDate;
+
 }

@@ -20,7 +20,7 @@ public class DoubleGarment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_double", nullable = false, unique = true)
-    private int idDouble;
+    private Long idDouble;
 
     // Relationships
     @ManyToOne

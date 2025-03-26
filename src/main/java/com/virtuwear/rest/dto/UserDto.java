@@ -18,17 +18,14 @@ import java.util.List;
 @AllArgsConstructor
 public class UserDto {
     private String uid;
-    private List<SingleGarment> singleGarments;
-    private List<DoubleGarment> doubleGarments;
-    private Referral referral;
     private String email;
     private String name;
     private int token;
     private int totalTryon;
     private int totalGenerate;
 
+    private String referralCode;
     private Timestamp createdDate;
     private Timestamp updatedDate;
 
 }
-

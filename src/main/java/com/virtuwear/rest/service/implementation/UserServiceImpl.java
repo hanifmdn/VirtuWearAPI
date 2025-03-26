@@ -7,6 +7,7 @@ import com.virtuwear.rest.entity.User;
 import com.virtuwear.rest.exception.ResourceNotFoundException;
 import com.virtuwear.rest.mapper.ReferralMapper;
 import com.virtuwear.rest.mapper.UserMapper;
+import com.virtuwear.rest.repository.ReferralRepository;
 import com.virtuwear.rest.repository.UserRepository;
 import com.virtuwear.rest.service.UserService;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,25 +29,40 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private final ReferralRepository referralRepository;
+
     @Override
     public UserDto createUser(UserDto userDto) {
-
         User user = UserMapper.mapToUser(userDto);
 
-        ReferralDto referralDto = new ReferralDto();
-        referralDto.setReferralCode(generateReferralCode());
-        referralDto.setTotalUsed(0L);
-        referralDto.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
-        referralDto.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
+        // Generate referral code baru
+        Referral referral = new Referral();
+        referral.setReferralCode(UUID.randomUUID().toString());
+        referral.setTotalUsed(0L);
+        referral.setCooldown(null);
+        referral.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
+        referral.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
 
-        Referral referral = ReferralMapper.mapToReferral(referralDto);
-        referral.setUser(user);
+        // Simpan Referral ke database
+        referralRepository.save(referral);
 
+        // Hubungkan User dengan Referral
         user.setReferral(referral);
 
+        // Simpan User ke database
         User savedUser = userRepository.save(user);
 
+        // Kembalikan DTO
         return UserMapper.mapToUserDto(savedUser);
+    }
+
+    private String generateUniqueReferralCode() {
+        String referralCode;
+        do {
+            referralCode = generateReferralCode();
+        } while (referralRepository.existsById(referralCode));
+        return referralCode;
     }
 
     private String generateReferralCode() {

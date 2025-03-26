@@ -7,7 +7,6 @@ public class ReferralMapper {
     public static ReferralDto mapToReferralDto(Referral referral) {
         return new ReferralDto(
                 referral.getReferralCode(),
-                referral.getUser(),
                 referral.getTotalUsed(),
                 referral.getCooldown(),
                 referral.getCreatedDate(),
@@ -19,7 +18,6 @@ public class ReferralMapper {
     public static Referral mapToReferral(ReferralDto referralDto) {
         return new Referral(
                 referralDto.getReferralCode(),
-                null,
                 referralDto.getTotalUsed(),
                 referralDto.getCooldown(),
                 referralDto.getCreatedDate(),
@@ -27,3 +25,4 @@ public class ReferralMapper {
         );
     }
 }
+
