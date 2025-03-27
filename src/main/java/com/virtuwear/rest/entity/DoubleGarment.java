@@ -22,11 +22,6 @@ public class DoubleGarment {
     @Column(name = "id_double", nullable = false, unique = true)
     private Long idDouble;
 
-    // Relationships
-    @ManyToOne
-    @JoinColumn(name = "uid", nullable = false)
-    private User user;
-
     @Column(name = "result_img")
     private String resultImg;
 
@@ -49,7 +44,9 @@ public class DoubleGarment {
     private boolean isBookmark;
 
 
-
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     // Date
     @Column(name = "created_date")

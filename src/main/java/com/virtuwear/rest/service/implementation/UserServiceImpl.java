@@ -1,15 +1,16 @@
 package com.virtuwear.rest.service.implementation;
 
-import com.virtuwear.rest.dto.ReferralDto;
 import com.virtuwear.rest.dto.UserDto;
 import com.virtuwear.rest.entity.Referral;
 import com.virtuwear.rest.entity.User;
+import com.virtuwear.rest.exception.InvalidOperationException;
 import com.virtuwear.rest.exception.ResourceNotFoundException;
-import com.virtuwear.rest.mapper.ReferralMapper;
 import com.virtuwear.rest.mapper.UserMapper;
 import com.virtuwear.rest.repository.ReferralRepository;
 import com.virtuwear.rest.repository.UserRepository;
 import com.virtuwear.rest.service.UserService;
+import com.virtuwear.rest.utility.ReferralCodeGenerator;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,40 +30,40 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private final ReferralRepository referralRepository;
+    private ReferralRepository referralRepository;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
+    @Transactional
     public UserDto createUser(UserDto userDto) {
-        User user = UserMapper.mapToUser(userDto);
+        User user = userMapper.toEntity(userDto);
 
-        // Generate referral code baru
+        String referralCode = generateUniqueReferralCode();
         Referral referral = new Referral();
-        referral.setReferralCode(UUID.randomUUID().toString());
+        referral.setReferralCode(referralCode);
         referral.setTotalUsed(0L);
-        referral.setCooldown(null);
-        referral.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
-        referral.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
+        referral.setUser(user);
 
-        // Simpan Referral ke database
-        referralRepository.save(referral);
-
-        // Hubungkan User dengan Referral
         user.setReferral(referral);
 
-        // Simpan User ke database
-        User savedUser = userRepository.save(user);
-
-        // Kembalikan DTO
-        return UserMapper.mapToUserDto(savedUser);
+        userRepository.save(user);
+        return userMapper.toDto(user);
     }
 
     private String generateUniqueReferralCode() {
-        String referralCode;
+        String code;
         do {
-            referralCode = generateReferralCode();
-        } while (referralRepository.existsById(referralCode));
-        return referralCode;
+            code = ReferralCodeGenerator.generateReferralCode();
+        } while (referralRepository.existsById(code));
+        return code;
     }
+
+
+
+
+
 
     private String generateReferralCode() {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -83,13 +83,13 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserByUID(String uid) {
         User user = userRepository.findById(uid)
                 .orElseThrow(() -> new ResolutionException("Employee is not exists with given uid : " + uid));
-        return UserMapper.mapToUserDto(user);
+        return userMapper.toDto(user);
     }
 
     @Override
     public List<UserDto> getAllUser() {
         List<User> users = userRepository.findAll();
-        return users.stream().map((user) -> UserMapper.mapToUserDto(user))
+        return users.stream().map((user) -> userMapper.toDto(user))
                 .collect(Collectors.toList());
     }
 
@@ -107,15 +107,42 @@ public class UserServiceImpl implements UserService {
         User updatedUserObj = userRepository.save(user);
 
 
-        return UserMapper.mapToUserDto(updatedUserObj);
+        return userMapper.toDto(updatedUserObj);
     }
 
     @Override
+    @Transactional
     public void deleteUser(String uid) {
-        User user = userRepository.findById(uid).orElseThrow(
-                () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
-        );
-        userRepository.deleteById(uid);
+        User user = userRepository.findById(uid)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with UID: " + uid));
+        userRepository.delete(user);
+    }
+
+    @Override
+    @Transactional
+    public UserDto redeemReferral(String uid, String referralCode) {
+        User user = userRepository.findById(uid)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with UID: " + uid));
+
+        Referral referral = referralRepository.findById(referralCode)
+                .orElseThrow(() -> new ResourceNotFoundException("Referral not found with code: " + referralCode));
+
+        if (referral.getUser().getUid().equals(uid)) {
+            throw new InvalidOperationException("Cannot redeem your own referral.");
+        }
+
+        if (user.getReedemedReferral() != null) {
+            throw new InvalidOperationException("User has already redeemed a referral.");
+        }
+
+        user.setReedemedReferral(referralCode);
+        referral.setTotalUsed(referral.getTotalUsed() + 1);
+        referral.setCooldown(Timestamp.valueOf(LocalDateTime.now().plusDays(7)));
+
+        userRepository.save(user);
+        referralRepository.save(referral);
+
+        return userMapper.toDto(user);
     }
 
 

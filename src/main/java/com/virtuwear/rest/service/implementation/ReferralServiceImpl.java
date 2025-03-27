@@ -4,6 +4,7 @@ import com.virtuwear.rest.dto.ReferralDto;
 import com.virtuwear.rest.dto.UserDto;
 import com.virtuwear.rest.entity.Referral;
 import com.virtuwear.rest.entity.User;
+import com.virtuwear.rest.exception.ResourceNotFoundException;
 import com.virtuwear.rest.mapper.ReferralMapper;
 import com.virtuwear.rest.mapper.UserMapper;
 import com.virtuwear.rest.repository.ReferralRepository;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -20,33 +22,48 @@ import java.util.List;
 public class ReferralServiceImpl implements ReferralService {
 
     @Autowired
-    private ReferralRepository referralRepository;
+    private final ReferralRepository referralRepository;
+    @Autowired
+    private final ReferralMapper referralMapper;
 
 
+    //  Update TotalUsed
     @Override
-    public ReferralDto createReferral(ReferralDto referralDto) {
-        Referral referral = ReferralMapper.mapToReferral(referralDto);
-        Referral savedReferral = referralRepository.save(referral);
-        return ReferralMapper.mapToReferralDto(savedReferral);
+    public ReferralDto updateUsedReferral(String referralCode, Long totalUsed) {
+        Referral referral = referralRepository.findById(referralCode)
+                .orElseThrow(() -> new RuntimeException("Referral not found"));
+
+        referral.setTotalUsed(totalUsed);
+        referral = referralRepository.save(referral);
+
+        return referralMapper.toDto(referral);
     }
 
+    //  Update Cooldown
+    @Override
+    public ReferralDto updateCooldownReferral(String referralCode, Timestamp cooldown) {
+        Referral referral = referralRepository.findById(referralCode)
+                .orElseThrow(() -> new RuntimeException("Referral not found"));
+
+        referral.setCooldown(cooldown);
+        referral = referralRepository.save(referral);
+
+        return referralMapper.toDto(referral);
+    }
+
+    //  Get Referral by Code
     @Override
     public ReferralDto getReferralByCode(String referralCode) {
-        return null;
+        Referral referral = referralRepository.findById(referralCode)
+                .orElseThrow(() -> new ResourceNotFoundException("Referral not found with code: " + referralCode));
+        return referralMapper.toDto(referral);
     }
 
     @Override
-    public List<ReferralDto> getAllUser() {
-        return List.of();
+    public List<ReferralDto> getAllReferrals() {
+        List<Referral> referrals = referralRepository.findAll();
+        return referralMapper.toDtoList(referrals);
     }
 
-    @Override
-    public ReferralDto updateReferral(String referralCode, ReferralDto updatedReferral) {
-        return null;
-    }
 
-    @Override
-    public void deleteReferral(String referralCode) {
-
-    }
 }

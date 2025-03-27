@@ -29,8 +29,9 @@ public class Referral {
     @Column(name = "cooldown")
     private Timestamp cooldown;
 
-    // Relationship One-To-One dengan User (opsional, bisa ditambahkan)
-    @OneToOne(mappedBy = "referral")
+
+    @OneToOne
+    @JoinColumn(name = "user_uid", referencedColumnName = "uid", nullable = false, unique = true)
     private User user;
 
     // Date
@@ -54,11 +55,4 @@ public class Referral {
         updatedDate = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public Referral(String referralCode, Long totalUsed, Timestamp cooldown, Timestamp createdDate, Timestamp updatedDate) {
-        this.referralCode = referralCode;
-        this.totalUsed = totalUsed;
-        this.cooldown = cooldown;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-    }
 }

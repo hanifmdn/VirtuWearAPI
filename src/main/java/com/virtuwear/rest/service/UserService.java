@@ -16,4 +16,6 @@ public interface UserService {
     UserDto updateUser(String uid, UserDto updatedUser);
 
     void deleteUser (String uid);
+
+    UserDto redeemReferral(String uid, String referralCode);
 }

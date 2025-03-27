@@ -23,9 +23,7 @@ public class UserDto {
     private int token;
     private int totalTryon;
     private int totalGenerate;
-
-    private String referralCode;
-    private Timestamp createdDate;
-    private Timestamp updatedDate;
+    private String redeemedReferral;
+    private ReferralDto referral;
 
 }

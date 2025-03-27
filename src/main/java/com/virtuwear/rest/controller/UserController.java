@@ -16,39 +16,47 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // Build add employee REST API
+    // add employee REST API
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         UserDto savedUser = userService.createUser(userDto);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    // Build Get Employee REST API
+
+    // Get Employee REST API
     @GetMapping("{uid}")
     public ResponseEntity<UserDto> getUserByUID(@PathVariable("uid") String uid) {
         UserDto userDto = userService.getUserByUID(uid);
         return ResponseEntity.ok(userDto);
     }
 
-    // Build Get All User REST API
+    // Get All User REST API
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> users = userService.getAllUser();
         return ResponseEntity.ok(users);
     }
 
-    // Build Update User REST API
+    // Update User REST API
     @PutMapping("{uid}")
     public ResponseEntity<UserDto> updateUser(@PathVariable("uid") String uid,  @RequestBody UserDto updatedUser) {
         UserDto userDto = userService.updateUser(uid, updatedUser);
         return ResponseEntity.ok(userDto);
     }
 
-    // Build Delete User REST API
+    // Delete User REST API
     @DeleteMapping("{uid}")
     public ResponseEntity<String> deleteUser(@PathVariable("uid") String uid) {
         userService.deleteUser(uid);
 
         return ResponseEntity.ok("User deleted succesfully");
+    }
+
+    // User Reedem Referral REST API
+    @PostMapping("/{uid}/redeem-referral/{referralCode}")
+    public ResponseEntity<UserDto> redeemReferral(@PathVariable String uid, @PathVariable String referralCode) {
+        UserDto updatedUser = userService.redeemReferral(uid, referralCode);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 }

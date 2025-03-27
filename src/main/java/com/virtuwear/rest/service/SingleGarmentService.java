@@ -8,14 +8,15 @@ import java.util.List;
 
 @Service
 public interface SingleGarmentService {
-    SingleGarmentDto createSG(SingleGarmentDto singleGarmentDto);
+    List<SingleGarmentDto> getAllByUser(String userId);
 
-    SingleGarmentDto getSGById(Long idSingle);
+    SingleGarmentDto getById(Long id);
 
-    List<SingleGarmentDto> getAllUser();
+    SingleGarmentDto createSingleGarment(SingleGarmentDto dto);
 
-    SingleGarmentDto updateSG(Long idSingle, SingleGarmentDto updatedSG);
+    SingleGarmentDto updateSingleGarment(Long id, SingleGarmentDto dto);
 
-    void deleteSG (Long idSingle);
+    void deleteSingleGarment(Long id);
+
 
 }

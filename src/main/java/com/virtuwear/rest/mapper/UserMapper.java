@@ -4,10 +4,15 @@ import com.virtuwear.rest.dto.ReferralDto;
 import com.virtuwear.rest.dto.UserDto;
 import com.virtuwear.rest.entity.User;
 import com.virtuwear.rest.mapper.ReferralMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
+    @Autowired
+    private ReferralMapper referralMapper;
 
-    public static UserDto mapToUserDto(User user) {
+    public UserDto toDto(User user) {
         return new UserDto(
                 user.getUid(),
                 user.getEmail(),
@@ -15,13 +20,13 @@ public class UserMapper {
                 user.getToken(),
                 user.getTotalTryon(),
                 user.getTotalGenerate(),
-                (user.getReferral() != null) ? user.getReferral().getReferralCode() : null,
-                user.getCreatedDate(),
-                user.getUpdatedDate()
+                user.getReedemedReferral(),
+                user.getReferral() != null ? referralMapper.toDto(user.getReferral()) : null
         );
+
     }
 
-    public static User mapToUser(UserDto userDto) {
+    public User toEntity(UserDto userDto) {
         User user = new User();
         user.setUid(userDto.getUid());
         user.setEmail(userDto.getEmail());
@@ -29,9 +34,7 @@ public class UserMapper {
         user.setToken(userDto.getToken());
         user.setTotalTryon(userDto.getTotalTryon());
         user.setTotalGenerate(userDto.getTotalGenerate());
-        user.setCreatedDate(userDto.getCreatedDate());
-        user.setUpdatedDate(userDto.getUpdatedDate());
-
+        user.setReedemedReferral(userDto.getRedeemedReferral());
         return user;
     }
 

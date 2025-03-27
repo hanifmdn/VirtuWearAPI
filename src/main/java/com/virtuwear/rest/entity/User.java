@@ -39,15 +39,21 @@ public class User {
     @Column(name = "total_generate")
     private int totalGenerate;
 
-    // Relationship One-To-One dengan Referral
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "referral_code", referencedColumnName = "referral_code")
+    @Column(name = "reedemed_referral")
+    private String reedemedReferral;
+
+
+    // One-to-One dengan Referral (1 user hanya punya 1 referral)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Referral referral;
 
-    // Relasi One-to-Many dengan SingleGarment
+    // Relationship One to Many dengan SingleGarment
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SingleGarment> garments = new ArrayList<>();
+    private List<SingleGarment> singlegarments = new ArrayList<>();
 
+    // Relationship One to Many dengan DoubleGarment
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DoubleGarment> doublegarments = new ArrayList<>();
 
     // Date
     @Column(name = "created_date", updatable = false)
@@ -64,16 +70,8 @@ public class User {
         updatedDate = now;
     }
 
-
-
-
     @PreUpdate
     protected void onUpdate() {
         updatedDate = Timestamp.valueOf(LocalDateTime.now());
     }
-
-
-
-
-
 }

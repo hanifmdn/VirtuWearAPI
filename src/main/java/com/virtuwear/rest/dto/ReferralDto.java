@@ -16,6 +16,4 @@ public class ReferralDto {
     private String referralCode;
     private Long totalUsed;
     private Timestamp cooldown;
-    private Timestamp createdDate;
-    private Timestamp updatedDate;
 }

@@ -13,23 +13,12 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class SingleGarmentDto {
     private Long idSingle;
-
     private String resultImg;
-
     private String modelImg;
-
     private String garmentImg;
-
     private String outfitName;
-
     private String notes;
-
     private boolean isBookmark;
-
-    private User user;
-
-    private Timestamp createdDate;
-
-    private Timestamp updatedDate;
-
+    private String userId; // ID User sebagai foreign key
 }
+
