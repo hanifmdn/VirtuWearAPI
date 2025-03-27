@@ -17,10 +17,15 @@ public class UserController {
     private UserService userService;
 
     // Build add employee REST API
-    @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-        UserDto savedUser = userService.createUser(userDto);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    // Find or Create User API
+    @PostMapping("/find-or-create")
+    public ResponseEntity<UserDto> findOrCreateUser(
+            @RequestParam String uid,
+            @RequestParam String email,
+            @RequestParam String name
+    ) {
+        UserDto savedUser = userService.findOrCreateUser(uid, email, name);
+        return new ResponseEntity<>(savedUser, HttpStatus.OK);
     }
 
     // Build Get Employee REST API

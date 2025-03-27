@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    UserDto createUser(UserDto userDto);
+    UserDto findOrCreateUser(String uid, String email, String name);
 
     UserDto getUserByUID(String uid);
 

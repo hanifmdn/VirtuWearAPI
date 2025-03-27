@@ -1,123 +1,130 @@
 package com.virtuwear.rest.service.implementation;
 
-import com.virtuwear.rest.dto.ReferralDto;
 import com.virtuwear.rest.dto.UserDto;
 import com.virtuwear.rest.entity.Referral;
 import com.virtuwear.rest.entity.User;
-import com.virtuwear.rest.exception.ResourceNotFoundException;
-import com.virtuwear.rest.mapper.ReferralMapper;
-import com.virtuwear.rest.mapper.UserMapper;
-import com.virtuwear.rest.repository.ReferralRepository;
 import com.virtuwear.rest.repository.UserRepository;
 import com.virtuwear.rest.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private final ReferralRepository referralRepository;
-
     @Override
-    public UserDto createUser(UserDto userDto) {
-        User user = UserMapper.mapToUser(userDto);
+    public UserDto findOrCreateUser(String uid, String email, String name) {
+        Optional<User> existingUser = userRepository.findById(uid);
 
-        // Generate referral code baru
-        Referral referral = new Referral();
-        referral.setReferralCode(UUID.randomUUID().toString());
-        referral.setTotalUsed(0L);
-        referral.setCooldown(null);
-        referral.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
-        referral.setUpdatedDate(Timestamp.valueOf(LocalDateTime.now()));
+        if (existingUser.isPresent()) {
+            User user = existingUser.get();
 
-        // Simpan Referral ke database
-        referralRepository.save(referral);
+            // Ambil referral_code dari entitas Referral
+            String referralCode = (user.getReferral() != null) ? user.getReferral().getReferralCode() : null;
 
-        // Hubungkan User dengan Referral
-        user.setReferral(referral);
+            return new UserDto(
+                    user.getUid(),
+                    user.getEmail(),
+                    user.getName(),
+                    user.getToken(),
+                    user.getTotalTryon(),
+                    user.getTotalGenerate(),
+                    referralCode, // Menggunakan referralCode yang benar
+                    user.getCreatedDate(),
+                    user.getUpdatedDate()
+            );
+        } else {
+            // Jika belum ada, buat user baru
+            User newUser = new User();
+            newUser.setUid(uid);
+            newUser.setEmail(email);
+            newUser.setName(name);
+            newUser.setToken(0);
+            newUser.setTotalTryon(0);
+            newUser.setTotalGenerate(0);
+            newUser.setReferral(null); // Pastikan referral diset null jika tidak ada
+            newUser.setCreatedDate(Timestamp.from(Instant.now()));
+            newUser.setUpdatedDate(Timestamp.from(Instant.now()));
 
-        // Simpan User ke database
-        User savedUser = userRepository.save(user);
+            userRepository.save(newUser);
 
-        // Kembalikan DTO
-        return UserMapper.mapToUserDto(savedUser);
-    }
-
-    private String generateUniqueReferralCode() {
-        String referralCode;
-        do {
-            referralCode = generateReferralCode();
-        } while (referralRepository.existsById(referralCode));
-        return referralCode;
-    }
-
-    private String generateReferralCode() {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder referralCodeBuilder = new StringBuilder();
-        Random random = new Random();
-
-        for (int i = 0; i < 6; i++) {
-            int index = random.nextInt(characters.length());
-            referralCodeBuilder.append(characters.charAt(index));
+            return new UserDto(
+                    newUser.getUid(),
+                    newUser.getEmail(),
+                    newUser.getName(),
+                    newUser.getToken(),
+                    newUser.getTotalTryon(),
+                    newUser.getTotalGenerate(),
+                    null, // Tidak ada referral code saat pertama kali dibuat
+                    newUser.getCreatedDate(),
+                    newUser.getUpdatedDate()
+            );
         }
-
-        return referralCodeBuilder.toString();
     }
 
 
     @Override
     public UserDto getUserByUID(String uid) {
-        User user = userRepository.findById(uid)
-                .orElseThrow(() -> new ResolutionException("Employee is not exists with given uid : " + uid));
-        return UserMapper.mapToUserDto(user);
+        Optional<User> userOpt = userRepository.findById(uid);
+        return userOpt.map(this::convertToDto).orElse(null);
     }
 
     @Override
     public List<UserDto> getAllUser() {
         List<User> users = userRepository.findAll();
-        return users.stream().map((user) -> UserMapper.mapToUserDto(user))
-                .collect(Collectors.toList());
+        return users.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
     public UserDto updateUser(String uid, UserDto updatedUser) {
+        Optional<User> userOpt = userRepository.findById(uid);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setName(updatedUser.getName());
+            user.setEmail(updatedUser.getEmail());
+            user.setToken(updatedUser.getToken());
+            user.setTotalTryon(updatedUser.getTotalTryon());
+            user.setTotalGenerate(updatedUser.getTotalGenerate());
+            user.setUpdatedDate(Timestamp.from(Instant.now()));
 
-        User user = userRepository.findById(uid).orElseThrow(
-                () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
-        );
+            // Update Referral jika ada
+            if (updatedUser.getReferralCode() != null) {
+                Referral referral = new Referral();
+                referral.setReferralCode(updatedUser.getReferralCode());
+                user.setReferral(referral);
+            }
 
-        user.setToken(updatedUser.getToken());
-        user.setTotalGenerate(updatedUser.getTotalGenerate());
-        user.setTotalTryon(updatedUser.getTotalTryon());
-
-        User updatedUserObj = userRepository.save(user);
-
-
-        return UserMapper.mapToUserDto(updatedUserObj);
+            userRepository.save(user);
+            return convertToDto(user);
+        }
+        return null;
     }
 
     @Override
     public void deleteUser(String uid) {
-        User user = userRepository.findById(uid).orElseThrow(
-                () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
-        );
         userRepository.deleteById(uid);
     }
 
-
-
+    private UserDto convertToDto(User user) {
+        String referralCode = (user.getReferral() != null) ? user.getReferral().getReferralCode() : null;
+        return new UserDto(
+                user.getUid(),
+                user.getEmail(),
+                user.getName(),
+                user.getToken(),
+                user.getTotalTryon(),
+                user.getTotalGenerate(),
+                referralCode,
+                user.getCreatedDate(),
+                user.getUpdatedDate()
+        );
+    }
 }

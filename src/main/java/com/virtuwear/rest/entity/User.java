@@ -72,8 +72,4 @@ public class User {
         updatedDate = Timestamp.valueOf(LocalDateTime.now());
     }
 
-
-
-
-
 }
