@@ -23,7 +23,6 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-
     // Get Employee REST API
     @GetMapping("{uid}")
     public ResponseEntity<UserDto> getUserByUID(@PathVariable("uid") String uid) {
