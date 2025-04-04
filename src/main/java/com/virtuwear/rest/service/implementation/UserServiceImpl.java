@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserByUID(String uid) {
         User user = userRepository.findById(uid)
-                .orElseThrow(() -> new ResolutionException("Employee is not exists with given uid : " + uid));
+                .orElseThrow(() -> new ResolutionException("User is not exists with given uid : " + uid));
         return userMapper.toDto(user);
     }
 
