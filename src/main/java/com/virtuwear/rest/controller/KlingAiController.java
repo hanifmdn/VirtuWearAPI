@@ -1,9 +1,6 @@
 package com.virtuwear.rest.controller;
 
-import com.virtuwear.rest.dto.KlingAiCreateResponseDto;
-import com.virtuwear.rest.dto.KlingAiRequestDto;
-import com.virtuwear.rest.dto.KlingAiResponseDto;
-import com.virtuwear.rest.dto.KlingAiSingleTaskResponseDto;
+import com.virtuwear.rest.dto.*;
 import com.virtuwear.rest.service.KlingAiService;
 import com.virtuwear.rest.utility.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -40,10 +37,10 @@ public class KlingAiController {
     }
 
     @GetMapping("/tryon/list")
-    public ResponseEntity<KlingAiResponseDto> getTryOnTaskList(
+    public ResponseEntity<KlingAiListTaskResponseDto> getTryOnTaskList(
             @RequestParam(defaultValue = "1") int pageNum,
             @RequestParam(defaultValue = "30") int pageSize) {
-        KlingAiResponseDto response = klingAiService.getTryOnTaskList(pageNum, pageSize);
+        KlingAiListTaskResponseDto response = klingAiService.getTryOnTaskList(pageNum, pageSize);
         return ResponseEntity.ok(response);
     }
 
