@@ -1,1 +1,4 @@
+com\virtuwear\rest\KlingAiRequestQuerySingle.class
+com\virtuwear\rest\KlingAiRequestCreate.class
 com\virtuwear\rest\RestApplicationTests.class
+com\virtuwear\rest\KlingAiRequestQueryList.class

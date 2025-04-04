@@ -25,5 +25,4 @@ public class UserDto {
     private int totalGenerate;
     private String redeemedReferral;
     private ReferralDto referral;
-
 }

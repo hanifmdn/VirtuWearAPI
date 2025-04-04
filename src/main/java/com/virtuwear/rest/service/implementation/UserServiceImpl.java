@@ -39,8 +39,17 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDto createUser(UserDto userDto) {
         User user = userMapper.toEntity(userDto);
+        user.setUid(userDto.getUid());
+        user.setEmail(userDto.getEmail());
+        user.setName(userDto.getName());
+        user.setToken(userDto.getToken());
+        user.setTotalTryon(userDto.getTotalTryon());
+        user.setTotalGenerate(userDto.getTotalGenerate());
+        user.setReedemedReferral(userDto.getRedeemedReferral());
 
         String referralCode = generateUniqueReferralCode();
+
+
         Referral referral = new Referral();
         referral.setReferralCode(referralCode);
         referral.setTotalUsed(0L);
@@ -60,11 +69,6 @@ public class UserServiceImpl implements UserService {
         return code;
     }
 
-
-
-
-
-
     private String generateReferralCode() {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder referralCodeBuilder = new StringBuilder();
@@ -78,11 +82,10 @@ public class UserServiceImpl implements UserService {
         return referralCodeBuilder.toString();
     }
 
-
     @Override
     public UserDto getUserByUID(String uid) {
         User user = userRepository.findById(uid)
-                .orElseThrow(() -> new ResolutionException("User is not exists with given uid : " + uid));
+                .orElseThrow(() -> new ResolutionException("Employee is not exists with given uid : " + uid));
         return userMapper.toDto(user);
     }
 
@@ -144,7 +147,4 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.toDto(user);
     }
-
-
-
 }
