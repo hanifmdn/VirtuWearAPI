@@ -1,9 +1,6 @@
 package com.virtuwear.rest.service.implementation;
 
-import com.virtuwear.rest.dto.KlingAiCreateResponseDto;
-import com.virtuwear.rest.dto.KlingAiRequestDto;
-import com.virtuwear.rest.dto.KlingAiResponseDto;
-import com.virtuwear.rest.dto.KlingAiSingleTaskResponseDto;
+import com.virtuwear.rest.dto.*;
 import com.virtuwear.rest.service.KlingAiService;
 import com.virtuwear.rest.utility.JwtUtil;
 import com.virtuwear.rest.utility.JwtUtilTest;
@@ -18,8 +15,10 @@ import org.springframework.http.ResponseEntity;
 
 @Service
 public class KlingAiServiceImpl implements KlingAiService {
-    String accessKey = "4e95d0cf579441c0822e0158a7dccb2f";
-    String secretKey = "b02045ea67e14e8581b6ecb196f9dceb";
+    @Value("${kling.api.access-key}")
+    String accessKey;
+    @Value("${kling.api.secret-key}")
+    String secretKey;
 
 
     private final RestTemplate restTemplate;
@@ -106,7 +105,7 @@ public class KlingAiServiceImpl implements KlingAiService {
     }
 
     // Mengambil Daftar Task Try-On
-    public KlingAiResponseDto getTryOnTaskList(int pageNum, int pageSize) {
+    public KlingAiListTaskResponseDto getTryOnTaskList(int pageNum, int pageSize) {
         String token = JwtUtilTest.generateToken(accessKey, secretKey);
         System.out.println("Authorization Header: Bearer " + token);
 
@@ -119,11 +118,11 @@ public class KlingAiServiceImpl implements KlingAiService {
         headers.set("Authorization", "Bearer " + token);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<KlingAiResponseDto> response = restTemplate.exchange(
+        ResponseEntity<KlingAiListTaskResponseDto> response = restTemplate.exchange(
                  "https://api.klingai.com/v1/images/kolors-virtual-try-on/?pageNum=" + pageNum + "&pageSize=" + pageSize,
                 HttpMethod.GET,
                 requestEntity,
-                KlingAiResponseDto.class
+                KlingAiListTaskResponseDto.class
         );
 
         return response.getBody();
