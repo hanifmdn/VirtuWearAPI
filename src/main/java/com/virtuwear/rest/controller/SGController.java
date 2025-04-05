@@ -44,4 +44,34 @@ public class SGController {
         singleGarmentService.deleteSingleGarment(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/update/model/{id}")
+    public ResponseEntity<SingleGarmentDto> updateModelImage(@PathVariable Long id, @RequestBody SingleGarmentDto dto) {
+        return ResponseEntity.ok(singleGarmentService.updateModelImg(id, dto));
+    }
+
+    @PutMapping("/update/garment/{id}")
+    public ResponseEntity<SingleGarmentDto> updateGarmentImage(@PathVariable Long id, @RequestBody SingleGarmentDto dto) {
+        return ResponseEntity.ok(singleGarmentService.updateGarmentImg(id, dto));
+    }
+
+    @PutMapping("/update/result/{id}")
+    public ResponseEntity<SingleGarmentDto> updateResultImage(@PathVariable Long id, @RequestBody SingleGarmentDto dto) {
+        return ResponseEntity.ok(singleGarmentService.updateResultImg(id, dto));
+    }
+
+    @PutMapping("/update/outfit_name/{id}")
+    public ResponseEntity<SingleGarmentDto> updateOutfitName(@PathVariable Long id, @RequestBody SingleGarmentDto dto) {
+        return ResponseEntity.ok(singleGarmentService.updateOutfitName(id, dto));
+    }
+
+    @PutMapping("/update/notes/{id}")
+    public ResponseEntity<SingleGarmentDto> updateNotes(@PathVariable Long id, @RequestBody SingleGarmentDto dto) {
+        return ResponseEntity.ok(singleGarmentService.updateNotes(id, dto));
+    }
+
+    @PutMapping("/update/bookmark/{id}")
+    public ResponseEntity<SingleGarmentDto> updateBookmark(@PathVariable Long id, @RequestBody SingleGarmentDto dto) {
+        return ResponseEntity.ok(singleGarmentService.updateBookmark(id, dto));
+    }
 }
