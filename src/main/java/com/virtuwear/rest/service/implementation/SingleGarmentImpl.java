@@ -71,4 +71,68 @@ public class SingleGarmentImpl implements SingleGarmentService {
         singleGarmentRepository.delete(garment);
     }
 
+    public SingleGarmentDto updateModelImg (Long id, SingleGarmentDto dto) {
+        SingleGarment garment = singleGarmentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
+
+        garment.setModelImg(dto.getModelImg());
+
+        singleGarmentRepository.save(garment);
+        return singleGarmentMapper.toDto(garment);
+    }
+
+    public SingleGarmentDto updateGarmentImg (Long id, SingleGarmentDto dto) {
+        SingleGarment garment = singleGarmentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
+
+        garment.setGarmentImg(dto.getGarmentImg());
+
+        singleGarmentRepository.save(garment);
+        return singleGarmentMapper.toDto(garment);
+    }
+
+    public SingleGarmentDto updateResultImg (Long id, SingleGarmentDto dto) {
+        SingleGarment garment = singleGarmentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
+
+        garment.setResultImg(dto.getResultImg());
+
+        singleGarmentRepository.save(garment);
+        return singleGarmentMapper.toDto(garment);
+    }
+
+    public SingleGarmentDto updateOutfitName (Long id, SingleGarmentDto dto) {
+        SingleGarment garment = singleGarmentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
+
+        garment.setOutfitName(dto.getOutfitName());
+
+        singleGarmentRepository.save(garment);
+        return singleGarmentMapper.toDto(garment);
+    }
+
+    public SingleGarmentDto updateNotes (Long id, SingleGarmentDto dto) {
+        SingleGarment garment = singleGarmentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
+
+        garment.setNotes(dto.getNotes());
+
+        singleGarmentRepository.save(garment);
+        return singleGarmentMapper.toDto(garment);
+    }
+
+    public SingleGarmentDto updateBookmark (Long id, SingleGarmentDto dto) {
+        SingleGarment garment = singleGarmentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
+
+        garment.setBookmark(dto.isBookmark());
+
+        singleGarmentRepository.save(garment);
+        return singleGarmentMapper.toDto(garment);
+    }
+
+
+
+
+
 }
