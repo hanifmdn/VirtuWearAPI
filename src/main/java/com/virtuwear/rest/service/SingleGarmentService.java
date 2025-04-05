@@ -18,5 +18,16 @@ public interface SingleGarmentService {
 
     void deleteSingleGarment(Long id);
 
+    SingleGarmentDto updateModelImg (Long id, SingleGarmentDto dto);
+
+    SingleGarmentDto updateGarmentImg (Long id, SingleGarmentDto dto);
+
+    SingleGarmentDto updateResultImg (Long id, SingleGarmentDto dto);
+
+    SingleGarmentDto updateOutfitName (Long id, SingleGarmentDto dto);
+
+    SingleGarmentDto updateNotes (Long id, SingleGarmentDto dto);
+
+    SingleGarmentDto updateBookmark (Long id, SingleGarmentDto dto);
 
 }
