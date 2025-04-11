@@ -24,6 +24,11 @@ public class SGController {
         return ResponseEntity.ok(singleGarmentService.getAllByUser(userId));
     }
 
+    @GetMapping("/{outfitName}")
+    public ResponseEntity<List<SingleGarmentDto>> getByOutfitName(@PathVariable String outfitName) {
+        return ResponseEntity.ok(singleGarmentService.getByOutfitName(outfitName));
+    }
+
     @GetMapping("/detail/{id}")
     public ResponseEntity<SingleGarmentDto> getSingleGarmentById(@PathVariable Long id) {
         return ResponseEntity.ok(singleGarmentService.getById(id));

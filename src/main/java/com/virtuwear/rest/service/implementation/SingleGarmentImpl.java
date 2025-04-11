@@ -35,6 +35,20 @@ public class SingleGarmentImpl implements SingleGarmentService {
         return garments.stream().map(singleGarmentMapper::toDto).collect(Collectors.toList());
     }
 
+    @Override
+    public List<SingleGarmentDto> getByOutfitName(String outfitName) {
+        List<SingleGarment> garments = singleGarmentRepository.findByOutfitName(outfitName);
+
+        if (garments.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No garments found with outfitName: " + outfitName);
+        }
+
+        return garments.stream()
+                .map(singleGarmentMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+
     public SingleGarmentDto getById(Long id) {
         SingleGarment garment = singleGarmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
