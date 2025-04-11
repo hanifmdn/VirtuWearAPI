@@ -8,6 +8,6 @@ import java.util.List;
 public interface SingleGarmentRepository extends JpaRepository<SingleGarment, Long> {
     List<SingleGarment> findByUserUid(String userId);
 
-    List<SingleGarment> findByOutfitName(String outfitName);
+    List<SingleGarment> searchByOutfitName(String outfitName);
 
 }

@@ -24,10 +24,11 @@ public class SGController {
         return ResponseEntity.ok(singleGarmentService.getAllByUser(userId));
     }
 
-    @GetMapping("/{outfitName}")
-    public ResponseEntity<List<SingleGarmentDto>> getByOutfitName(@PathVariable String outfitName) {
-        return ResponseEntity.ok(singleGarmentService.getByOutfitName(outfitName));
+    @GetMapping("/search")
+    public ResponseEntity<List<SingleGarmentDto>> searchByOutfitName(@RequestParam String outfitName) {
+        return ResponseEntity.ok(singleGarmentService.searchByOutfitName(outfitName));
     }
+
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<SingleGarmentDto> getSingleGarmentById(@PathVariable Long id) {

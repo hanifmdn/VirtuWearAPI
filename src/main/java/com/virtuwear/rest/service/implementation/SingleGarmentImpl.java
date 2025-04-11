@@ -36,8 +36,8 @@ public class SingleGarmentImpl implements SingleGarmentService {
     }
 
     @Override
-    public List<SingleGarmentDto> getByOutfitName(String outfitName) {
-        List<SingleGarment> garments = singleGarmentRepository.findByOutfitName(outfitName);
+    public List<SingleGarmentDto> searchByOutfitName(String outfitName) {
+        List<SingleGarment> garments = singleGarmentRepository.searchByOutfitName(outfitName);
 
         if (garments.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No garments found with outfitName: " + outfitName);
