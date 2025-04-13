@@ -18,7 +18,6 @@ import java.util.Random;
 @Table(name = "referral")
 
 public class Referral {
-
     @Id
     @Column(name = "referral_code", nullable = false, unique = true)
     private String referralCode;
@@ -28,7 +27,6 @@ public class Referral {
 
     @Column(name = "cooldown")
     private Timestamp cooldown;
-
 
     @OneToOne
     @JoinColumn(name = "user_uid", referencedColumnName = "uid", nullable = false, unique = true)
@@ -40,8 +38,6 @@ public class Referral {
 
     @Column(name = "updated_date")
     private Timestamp updatedDate;
-
-
 
     @PrePersist
     protected void onCreate() {

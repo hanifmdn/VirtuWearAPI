@@ -23,7 +23,6 @@ public class UserMapper {
                 user.getReedemedReferral(),
                 user.getReferral() != null ? referralMapper.toDto(user.getReferral()) : null
         );
-
     }
 
     public User toEntity(UserDto userDto) {
@@ -37,5 +36,4 @@ public class UserMapper {
         user.setReedemedReferral(userDto.getRedeemedReferral());
         return user;
     }
-
 }

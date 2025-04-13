@@ -1,6 +1,7 @@
 package com.virtuwear.rest.controller;
 
 import com.virtuwear.rest.dto.UserDto;
+import com.virtuwear.rest.dto.UserProfileDto;
 import com.virtuwear.rest.service.UserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,13 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
+//    @GetMapping("profile/{uid}")
+//    public ResponseEntity<UserProfileDto> getUserProfileByUID(@PathVariable("uid") String uid) {
+//        UserProfileDto userProfileDto = userService.getProfile(uid);
+//        return ResponseEntity.ok(userProfileDto);
+//
+//    }
+
     // Get All User REST API
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
@@ -57,5 +65,12 @@ public class UserController {
     public ResponseEntity<UserDto> redeemReferral(@PathVariable String uid, @PathVariable String referralCode) {
         UserDto updatedUser = userService.redeemReferral(uid, referralCode);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    // Update total generate user
+    @PostMapping("{uid}/total_generate")
+    public ResponseEntity<UserDto> updateTotalGenerate(@PathVariable String uid, @RequestBody UserDto updatedUser) {
+        UserDto userDto = userService.updateTotalGenerate(uid, updatedUser);
+        return ResponseEntity.ok(userDto);
     }
 }

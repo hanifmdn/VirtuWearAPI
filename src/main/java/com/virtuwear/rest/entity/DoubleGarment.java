@@ -40,6 +40,9 @@ public class DoubleGarment {
     @Column(name = "notes")
     private String notes;
 
+    @Column(name = "status")
+    private String status;
+
     @Column(name = "isBookmark")
     private boolean isBookmark;
 
