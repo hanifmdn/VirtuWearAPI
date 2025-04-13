@@ -10,6 +10,8 @@ import java.util.List;
 public interface SingleGarmentService {
     List<SingleGarmentDto> getAllByUser(String userId);
 
+    List<SingleGarmentDto> searchByOutfitName(String outfitName);
+
     SingleGarmentDto getById(Long id);
 
     SingleGarmentDto createSingleGarment(SingleGarmentDto dto);
