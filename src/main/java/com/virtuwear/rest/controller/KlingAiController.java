@@ -61,7 +61,6 @@ public class KlingAiController {
         KlingAiSingleTaskResponseDto response = klingAiService.pollTryOnTaskStatus(taskId, 10, 30);
         return ResponseEntity.ok(response);
     }
-
 }
 
 

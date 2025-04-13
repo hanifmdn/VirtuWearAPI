@@ -16,5 +16,4 @@ public class ReferralCodeGenerator {
 
         return code.toString();
     }
-
 }
