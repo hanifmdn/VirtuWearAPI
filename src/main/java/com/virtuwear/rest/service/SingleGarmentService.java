@@ -30,6 +30,6 @@ public interface SingleGarmentService {
 
     SingleGarmentDto updateNotes (Long id, SingleGarmentDto dto);
 
-    SingleGarmentDto updateBookmark (Long id, SingleGarmentDto dto);
+    SingleGarmentDto updateBookmark(Long id, boolean isBookmark);
 
 }

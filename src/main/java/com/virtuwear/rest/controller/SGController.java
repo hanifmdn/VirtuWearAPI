@@ -1,5 +1,6 @@
 package com.virtuwear.rest.controller;
 
+import com.virtuwear.rest.dto.BookmarkUpdateDto;
 import com.virtuwear.rest.dto.SingleGarmentDto;
 import com.virtuwear.rest.dto.UserDto;
 import com.virtuwear.rest.service.SingleGarmentService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/single-garments")
@@ -76,8 +78,25 @@ public class SGController {
         return ResponseEntity.ok(singleGarmentService.updateNotes(id, dto));
     }
 
-    @PutMapping("/update/bookmark/{id}")
+    @PutMapping("/update/bookmark-single/{id}")
     public ResponseEntity<SingleGarmentDto> updateBookmark(@PathVariable Long id, @RequestBody SingleGarmentDto dto) {
-        return ResponseEntity.ok(singleGarmentService.updateBookmark(id, dto));
+        System.out.println("Received bookmark update for ID: " + id);
+        System.out.println("DTO isBookmark value: " + dto.isBookmark());
+
+        SingleGarmentDto result = singleGarmentService.updateBookmark(id, dto.isBookmark());
+
+        System.out.println("Updated bookmark value in DB: " + result.isBookmark());
+        return ResponseEntity.ok(result);
     }
+
+//    @PutMapping("/update/bookmark-single/{id}")
+//    public ResponseEntity<SingleGarmentDto> updateBookmark(@PathVariable Long id, @RequestBody Map<String, Boolean> request) {
+//        boolean isBookmark = request.getOrDefault("isBookmark", false);
+//        return ResponseEntity.ok(singleGarmentService.updateBookmark(id, isBookmark));
+//    }
+
+
+
+
+
 }

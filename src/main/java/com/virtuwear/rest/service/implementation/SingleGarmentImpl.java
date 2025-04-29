@@ -135,15 +135,18 @@ public class SingleGarmentImpl implements SingleGarmentService {
         return singleGarmentMapper.toDto(garment);
     }
 
-    public SingleGarmentDto updateBookmark (Long id, SingleGarmentDto dto) {
+    public SingleGarmentDto updateBookmark(Long id, boolean isBookmark) {
         SingleGarment garment = singleGarmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
 
-        garment.setBookmark(dto.isBookmark());
+        System.out.println("Before update, bookmark value: " + garment.isBookmark());
+        garment.setBookmark(isBookmark);
+        SingleGarment saved = singleGarmentRepository.save(garment);
+        System.out.println("After update, bookmark value: " + saved.isBookmark());
 
-        singleGarmentRepository.save(garment);
-        return singleGarmentMapper.toDto(garment);
+        return singleGarmentMapper.toDto(saved);
     }
+
 
 
 

@@ -45,4 +45,9 @@ public class DoubleGarmentController {
     public ResponseEntity<DoubleGarmentDto> getSingleGarmentById(@PathVariable Long id) {
         return ResponseEntity.ok(doubleGarmentService.getDoubleById(id));
     }
+
+    @PutMapping("/update/bookmark-double/{id}")
+    public ResponseEntity<DoubleGarmentDto> updateBookmark(@PathVariable Long id, @RequestBody DoubleGarmentDto dto) {
+        return ResponseEntity.ok(doubleGarmentService.updateBookmark(id, dto));
+    }
 }

@@ -1,7 +1,9 @@
 package com.virtuwear.rest.service.implementation;
 
 import com.virtuwear.rest.dto.DoubleGarmentDto;
+import com.virtuwear.rest.dto.SingleGarmentDto;
 import com.virtuwear.rest.entity.DoubleGarment;
+import com.virtuwear.rest.entity.SingleGarment;
 import com.virtuwear.rest.entity.User;
 import com.virtuwear.rest.mapper.DoubleGarmentMapper;
 import com.virtuwear.rest.repository.DoubleGarmentRepository;
@@ -74,5 +76,16 @@ public class DoubleGarmentImpl implements DoubleGarmentService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
         doubleGarmentRepository.delete(doubleGarment);
 
+    }
+
+    @Override
+    public DoubleGarmentDto updateBookmark (Long id, DoubleGarmentDto dto) {
+        DoubleGarment garment = doubleGarmentRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
+
+        garment.setBookmark(dto.isBookmark());
+
+        doubleGarmentRepository.save(garment);
+        return doubleGarmentMapper.toDto(garment);
     }
 }

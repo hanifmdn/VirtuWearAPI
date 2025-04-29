@@ -14,4 +14,6 @@ public interface DoubleGarmentService {
     DoubleGarmentDto updateDoubleGarment(Long id, DoubleGarmentDto dto);
 
     void deleteDoubleGarment(Long id);
+
+    DoubleGarmentDto updateBookmark (Long id, DoubleGarmentDto dto);
 }
