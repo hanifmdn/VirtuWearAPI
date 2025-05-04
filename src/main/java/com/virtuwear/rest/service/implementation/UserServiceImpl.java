@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
         user.setTotalTryon(userDto.getTotalTryon());
         user.setTotalGenerate(userDto.getTotalGenerate());
         user.setReedemedReferral(userDto.getRedeemedReferral());
+        user.setTotalInvitation(userDto.getTotalInvitation());
 
         String referralCode = generateUniqueReferralCode();
 
@@ -207,6 +208,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(user);
     }
 
+
+    @Override
     public UserDto updateDashboard(String uid) {
         User user = userRepository.findById(uid).orElseThrow(
                 () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
@@ -216,10 +219,10 @@ public class UserServiceImpl implements UserService {
         Integer totalUploadedGarment = singleGarmentRepository.countByUserUid(uid) + (doubleGarmentRepository.countByUserUid(uid) * 2);
         Integer totalInvite = referralService.getTotalReedemedReferral(uid);
 
-
         user.setToken(user.getToken());
         user.setTotalGenerate(totalGenerate);
         user.setTotalTryon(totalUploadedGarment);
+        user.setTotalInvitation(totalInvite);
 
         return userMapper.toDto(user);
     }
