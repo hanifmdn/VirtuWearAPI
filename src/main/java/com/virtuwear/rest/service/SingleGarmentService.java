@@ -32,4 +32,6 @@ public interface SingleGarmentService {
 
     SingleGarmentDto updateBookmark(Long id, boolean isBookmark);
 
+    List<SingleGarmentDto> getAllBookmarked(String userId);
+
 }

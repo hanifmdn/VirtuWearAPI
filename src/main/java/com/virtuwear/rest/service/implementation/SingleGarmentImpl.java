@@ -1,17 +1,14 @@
 package com.virtuwear.rest.service.implementation;
 
-import com.virtuwear.rest.dto.ReferralDto;
 import com.virtuwear.rest.dto.SingleGarmentDto;
-import com.virtuwear.rest.entity.Referral;
+import com.virtuwear.rest.dto.UserDto;
 import com.virtuwear.rest.entity.SingleGarment;
 import com.virtuwear.rest.entity.User;
-import com.virtuwear.rest.mapper.ReferralMapper;
 import com.virtuwear.rest.mapper.SingleGarmentMapper;
 import com.virtuwear.rest.repository.SingleGarmentRepository;
 import com.virtuwear.rest.repository.UserRepository;
 import com.virtuwear.rest.service.SingleGarmentService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -30,6 +27,7 @@ public class SingleGarmentImpl implements SingleGarmentService {
     @Autowired
     private final SingleGarmentMapper singleGarmentMapper;
 
+    @Override
     public List<SingleGarmentDto> getAllByUser(String userId) {
         List<SingleGarment> garments = singleGarmentRepository.findByUserUid(userId);
         return garments.stream().map(singleGarmentMapper::toDto).collect(Collectors.toList());
@@ -48,13 +46,14 @@ public class SingleGarmentImpl implements SingleGarmentService {
                 .collect(Collectors.toList());
     }
 
-
+    @Override
     public SingleGarmentDto getById(Long id) {
         SingleGarment garment = singleGarmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
         return singleGarmentMapper.toDto(garment);
     }
 
+    @Override
     public SingleGarmentDto createSingleGarment(SingleGarmentDto dto) {
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found!"));
@@ -64,6 +63,7 @@ public class SingleGarmentImpl implements SingleGarmentService {
         return singleGarmentMapper.toDto(singleGarment);
     }
 
+    @Override
     public SingleGarmentDto updateSingleGarment(Long id, SingleGarmentDto dto) {
         SingleGarment garment = singleGarmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
@@ -79,12 +79,14 @@ public class SingleGarmentImpl implements SingleGarmentService {
         return singleGarmentMapper.toDto(garment);
     }
 
+    @Override
     public void deleteSingleGarment(Long id) {
         SingleGarment garment = singleGarmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
         singleGarmentRepository.delete(garment);
     }
 
+    @Override
     public SingleGarmentDto updateModelImg (Long id, SingleGarmentDto dto) {
         SingleGarment garment = singleGarmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
@@ -95,6 +97,7 @@ public class SingleGarmentImpl implements SingleGarmentService {
         return singleGarmentMapper.toDto(garment);
     }
 
+    @Override
     public SingleGarmentDto updateGarmentImg (Long id, SingleGarmentDto dto) {
         SingleGarment garment = singleGarmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
@@ -105,6 +108,7 @@ public class SingleGarmentImpl implements SingleGarmentService {
         return singleGarmentMapper.toDto(garment);
     }
 
+    @Override
     public SingleGarmentDto updateResultImg (Long id, SingleGarmentDto dto) {
         SingleGarment garment = singleGarmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
@@ -115,6 +119,7 @@ public class SingleGarmentImpl implements SingleGarmentService {
         return singleGarmentMapper.toDto(garment);
     }
 
+    @Override
     public SingleGarmentDto updateOutfitName (Long id, SingleGarmentDto dto) {
         SingleGarment garment = singleGarmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
@@ -125,6 +130,7 @@ public class SingleGarmentImpl implements SingleGarmentService {
         return singleGarmentMapper.toDto(garment);
     }
 
+    @Override
     public SingleGarmentDto updateNotes (Long id, SingleGarmentDto dto) {
         SingleGarment garment = singleGarmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
@@ -135,6 +141,7 @@ public class SingleGarmentImpl implements SingleGarmentService {
         return singleGarmentMapper.toDto(garment);
     }
 
+    @Override
     public SingleGarmentDto updateBookmark(Long id, boolean isBookmark) {
         SingleGarment garment = singleGarmentRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Garment not found"));
@@ -147,9 +154,11 @@ public class SingleGarmentImpl implements SingleGarmentService {
         return singleGarmentMapper.toDto(saved);
     }
 
-
-
-
+    @Override
+    public List<SingleGarmentDto> getAllBookmarked(String userId) {
+        List<SingleGarment> garments = singleGarmentRepository.findByUserUidAndIsBookmarkTrue(userId);
+        return garments.stream().map(singleGarmentMapper::toDto).collect(Collectors.toList());
+    }
 
 
 }
