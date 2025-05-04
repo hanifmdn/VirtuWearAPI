@@ -51,4 +51,12 @@ public class ReferralController {
         return ResponseEntity.ok(updatedReferral);
     }
 
+
+    @GetMapping("/total-reedemed/{userId}")
+    public ResponseEntity<Integer> getTotalReedemedReferral(@PathVariable String userId) {
+        Integer total = referralService.getTotalReedemedReferral(userId);
+        return ResponseEntity.ok(total);
+    }
+
+
 }

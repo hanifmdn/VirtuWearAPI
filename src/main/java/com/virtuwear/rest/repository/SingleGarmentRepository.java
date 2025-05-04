@@ -2,6 +2,7 @@ package com.virtuwear.rest.repository;
 
 import com.virtuwear.rest.entity.SingleGarment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -11,5 +12,7 @@ public interface SingleGarmentRepository extends JpaRepository<SingleGarment, Lo
     List<SingleGarment> searchByOutfitName(String outfitName);
 
     List<SingleGarment> findByUserUidAndIsBookmarkTrue(String userId);
+
+    Integer countByUserUid(String userId);
 
 }

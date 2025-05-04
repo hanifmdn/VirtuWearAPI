@@ -38,6 +38,9 @@ public class UserServiceImpl implements UserService {
     private ReferralRepository referralRepository;
 
     @Autowired
+    private ReferralServiceImpl referralService;
+
+    @Autowired
     private SingleGarmentRepository singleGarmentRepository;
 
     @Autowired
@@ -200,6 +203,23 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
         referralRepository.save(referral);
+
+        return userMapper.toDto(user);
+    }
+
+    public UserDto updateDashboard(String uid) {
+        User user = userRepository.findById(uid).orElseThrow(
+                () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
+        );
+
+        Integer totalGenerate = singleGarmentRepository.countByUserUid(uid) + doubleGarmentRepository.countByUserUid(uid);
+        Integer totalUploadedGarment = singleGarmentRepository.countByUserUid(uid) + (doubleGarmentRepository.countByUserUid(uid) * 2);
+        Integer totalInvite = referralService.getTotalReedemedReferral(uid);
+
+
+        user.setToken(user.getToken());
+        user.setTotalGenerate(totalGenerate);
+        user.setTotalTryon(totalUploadedGarment);
 
         return userMapper.toDto(user);
     }
