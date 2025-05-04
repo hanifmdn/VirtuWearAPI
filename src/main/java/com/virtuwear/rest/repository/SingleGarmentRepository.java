@@ -10,4 +10,6 @@ public interface SingleGarmentRepository extends JpaRepository<SingleGarment, Lo
 
     List<SingleGarment> searchByOutfitName(String outfitName);
 
+    List<SingleGarment> findByUserUidAndIsBookmarkTrue(String userId);
+
 }

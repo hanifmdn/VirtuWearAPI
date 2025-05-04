@@ -89,11 +89,15 @@ public class SGController {
         return ResponseEntity.ok(result);
     }
 
-//    @PutMapping("/update/bookmark-single/{id}")
-//    public ResponseEntity<SingleGarmentDto> updateBookmark(@PathVariable Long id, @RequestBody Map<String, Boolean> request) {
-//        boolean isBookmark = request.getOrDefault("isBookmark", false);
-//        return ResponseEntity.ok(singleGarmentService.updateBookmark(id, isBookmark));
-//    }
+    @GetMapping("/bookmarked/{userId}")
+    public ResponseEntity<List<SingleGarmentDto>> getAllBookmarked(@PathVariable String userId) {
+        List<SingleGarmentDto> bookmarked = singleGarmentService.getAllBookmarked(userId);
+        return ResponseEntity.ok(bookmarked);
+    }
+
+
+
+
 
 
 
