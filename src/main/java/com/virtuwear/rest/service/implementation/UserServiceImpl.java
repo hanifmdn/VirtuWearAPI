@@ -224,6 +224,11 @@ public class UserServiceImpl implements UserService {
         user.setTotalTryon(totalUploadedGarment);
         user.setTotalInvitation(totalInvite);
 
+        user.getReferral().getReferralCode();
+
+        // disini harus dibenerin, ternyata total invite ada di referral. Hapus total invitation disini, panggil method dari yang referral. Don
+
+
         return userMapper.toDto(user);
     }
 }
