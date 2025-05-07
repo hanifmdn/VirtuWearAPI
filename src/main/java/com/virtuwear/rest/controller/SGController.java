@@ -95,6 +95,13 @@ public class SGController {
         return ResponseEntity.ok(bookmarked);
     }
 
+    @GetMapping("sort/date/{timeMillis}")
+    public ResponseEntity<List<SingleGarmentDto>> findByCreatedAt(@PathVariable Long timeMillis) {
+        List<SingleGarmentDto> garments = singleGarmentService.findByCreatedAt(timeMillis);
+        return ResponseEntity.ok(garments);
+    }
+
+
 
 
 

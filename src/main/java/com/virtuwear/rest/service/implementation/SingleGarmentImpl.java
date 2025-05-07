@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Timestamp;
+import java.time.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -160,5 +162,14 @@ public class SingleGarmentImpl implements SingleGarmentService {
         return garments.stream().map(singleGarmentMapper::toDto).collect(Collectors.toList());
     }
 
-
+    @Override
+    public List<SingleGarmentDto> findByCreatedAt(Long createdAt){
+        LocalDate localDate = Instant.ofEpochMilli(createdAt)
+                .atZone(ZoneId.systemDefault()) // atau pakai ZoneId.of("Asia/Jakarta") jika perlu
+                .toLocalDate();
+        Timestamp startOfDay = Timestamp.valueOf(localDate.atStartOfDay());
+        Timestamp endOfDay = Timestamp.valueOf(localDate.plusDays(1).atStartOfDay().minusNanos(1));
+        List<SingleGarment> garments = singleGarmentRepository.findByCreatedDateBetween(startOfDay,endOfDay);
+        return garments.stream().map(singleGarmentMapper::toDto).collect(Collectors.toList());
+    }
 }
