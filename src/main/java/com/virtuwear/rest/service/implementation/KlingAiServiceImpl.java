@@ -22,8 +22,8 @@ public class KlingAiServiceImpl implements KlingAiService {
 
 
     private final RestTemplate restTemplate;
-
-    private String apiDomain = "https://api.klingai.com";
+    @Value("${kling.api.domain}")
+    String apiDomain;
 
     public KlingAiServiceImpl() {
         this.restTemplate = new RestTemplate();
