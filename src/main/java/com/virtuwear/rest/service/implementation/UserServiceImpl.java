@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
         user.setTotalTryon(userDto.getTotalTryon());
         user.setTotalGenerate(userDto.getTotalGenerate());
         user.setReedemedReferral(userDto.getRedeemedReferral());
-        user.setTotalInvitation(userDto.getTotalInvitation());
 
         String referralCode = generateUniqueReferralCode();
 
@@ -215,19 +214,14 @@ public class UserServiceImpl implements UserService {
                 () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
         );
 
-        Integer totalGenerate = singleGarmentRepository.countByUserUid(uid) + doubleGarmentRepository.countByUserUid(uid);
-        Integer totalUploadedGarment = singleGarmentRepository.countByUserUid(uid) + (doubleGarmentRepository.countByUserUid(uid) * 2);
-        Integer totalInvite = referralService.getTotalReedemedReferral(uid);
+        int totalGenerate = singleGarmentRepository.countByUserUid(uid) + doubleGarmentRepository.countByUserUid(uid);
+        int totalUploadedGarment = singleGarmentRepository.countByUserUid(uid) + (doubleGarmentRepository.countByUserUid(uid) * 2);
+        long totalInvite = referralService.getTotalReedemedReferral(uid);
 
         user.setToken(user.getToken());
         user.setTotalGenerate(totalGenerate);
         user.setTotalTryon(totalUploadedGarment);
-        user.setTotalInvitation(totalInvite);
-
-        user.getReferral().getReferralCode();
-
-        // disini harus dibenerin, ternyata total invite ada di referral. Hapus total invitation disini, panggil method dari yang referral. Don
-
+        user.getReferral().setTotalUsed(totalInvite);
 
         return userMapper.toDto(user);
     }

@@ -21,8 +21,7 @@ public class UserMapper {
                 user.getTotalTryon(),
                 user.getTotalGenerate(),
                 user.getReedemedReferral(),
-                user.getReferral() != null ? referralMapper.toDto(user.getReferral()) : null,
-                user.getTotalInvitation()
+                user.getReferral() != null ? referralMapper.toDto(user.getReferral()) : null
         );
     }
 
@@ -35,7 +34,6 @@ public class UserMapper {
         user.setTotalTryon(userDto.getTotalTryon());
         user.setTotalGenerate(userDto.getTotalGenerate());
         user.setReedemedReferral(userDto.getRedeemedReferral());
-        user.setTotalInvitation(userDto.getTotalInvitation());
         return user;
     }
 }
