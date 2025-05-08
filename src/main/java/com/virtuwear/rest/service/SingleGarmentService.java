@@ -4,6 +4,7 @@ import com.virtuwear.rest.dto.ReferralDto;
 import com.virtuwear.rest.dto.SingleGarmentDto;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -34,4 +35,6 @@ public interface SingleGarmentService {
 
     List<SingleGarmentDto> getAllBookmarked(String userId);
 
+    List<SingleGarmentDto> findByCreatedAt(Long createdAt);
+    ;
 }
