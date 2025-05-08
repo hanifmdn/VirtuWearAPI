@@ -14,5 +14,4 @@ public interface SingleGarmentRepository extends JpaRepository<SingleGarment, Lo
     List<SingleGarment> findByUserUidAndIsBookmarkTrue(String userId);
 
     Integer countByUserUid(String userId);
-
 }

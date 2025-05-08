@@ -159,4 +159,6 @@ public class SingleGarmentImpl implements SingleGarmentService {
         List<SingleGarment> garments = singleGarmentRepository.findByUserUidAndIsBookmarkTrue(userId);
         return garments.stream().map(singleGarmentMapper::toDto).collect(Collectors.toList());
     }
+
+
 }

@@ -158,13 +158,13 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public UserDto updateTotalGenerate(String uid, UserDto updatedUser) {
+    public UserDto updateTotalGenerate(String uid) {
 
         User user = userRepository.findById(uid).orElseThrow(
                 () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
         );
 
-        user.setTotalGenerate(updatedUser.getTotalGenerate());
+        user.setTotalGenerate(user.getTotalGenerate() + 1);
 
         User updatedUserObj = userRepository.save(user);
 
@@ -215,14 +215,13 @@ public class UserServiceImpl implements UserService {
         );
 
         int totalGenerate = singleGarmentRepository.countByUserUid(uid) + doubleGarmentRepository.countByUserUid(uid);
-        int totalUploadedGarment = singleGarmentRepository.countByUserUid(uid) + (doubleGarmentRepository.countByUserUid(uid) * 2);
+//        int totalUploadedGarment = singleGarmentRepository.countByUserUid(uid) + (doubleGarmentRepository.countByUserUid(uid) * 2);
         long totalInvite = referralService.getTotalReedemedReferral(uid);
 
         user.setToken(user.getToken());
-        user.setTotalGenerate(totalGenerate);
-        user.setTotalTryon(totalUploadedGarment);
+        user.setTotalTryon(totalGenerate);
         user.getReferral().setTotalUsed(totalInvite);
-
+        userRepository.save(user);
         return userMapper.toDto(user);
     }
 }
