@@ -18,9 +18,12 @@ public interface UserService {
 
 //    UserProfileDto getProfile(String uid);
 
-    UserDto updateTotalGenerate(String uid, UserDto updatedUser);
+    UserDto updateTotalGenerate(String uid);
 
     void deleteUser (String uid);
 
     UserDto redeemReferral(String uid, String referralCode);
+
+    UserDto updateDashboard(String uid);
+
 }

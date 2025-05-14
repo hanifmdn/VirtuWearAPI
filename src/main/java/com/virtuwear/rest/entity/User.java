@@ -1,6 +1,7 @@
 package com.virtuwear.rest.entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,7 +42,6 @@ public class User {
 
     @Column(name = "reedemed_referral")
     private String reedemedReferral;
-
 
     // One-to-One dengan Referral (1 user hanya punya 1 referral)
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

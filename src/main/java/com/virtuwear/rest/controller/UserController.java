@@ -69,8 +69,15 @@ public class UserController {
 
     // Update total generate user
     @PostMapping("{uid}/total_generate")
-    public ResponseEntity<UserDto> updateTotalGenerate(@PathVariable String uid, @RequestBody UserDto updatedUser) {
-        UserDto userDto = userService.updateTotalGenerate(uid, updatedUser);
+    public ResponseEntity<UserDto> updateTotalGenerate(@PathVariable String uid) {
+        UserDto userDto = userService.updateTotalGenerate(uid);
         return ResponseEntity.ok(userDto);
     }
+
+    @PostMapping("/update/dashboard/{uid}")
+    public ResponseEntity<UserDto> updateDashboard(@PathVariable("uid") String uid) {
+        UserDto userDto = userService.updateDashboard(uid);
+        return ResponseEntity.ok(userDto);
+    }
+
 }

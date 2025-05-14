@@ -38,6 +38,9 @@ public class UserServiceImpl implements UserService {
     private ReferralRepository referralRepository;
 
     @Autowired
+    private ReferralServiceImpl referralService;
+
+    @Autowired
     private SingleGarmentRepository singleGarmentRepository;
 
     @Autowired
@@ -131,37 +134,16 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(updatedUserObj);
     }
 
-//    public Integer getTotalGarmentCountByUserId(String userId) {
-//        Integer single = singleGarmentRepository.countByUId(userId);
-//        Integer dbl = doubleGarmentRepository.countByUId(userId);
-//        return single + dbl;
-//    }
-//
-//    @Override
-//    public UserProfileDto getProfile(String uid) {
-//        UserProfileDto userProfileDto = new UserProfileDto();
-//        User user = userRepository.findById(uid).orElseThrow(
-//                () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
-//        );
-//
-//        Integer totalTryOn = getTotalGarmentCountByUserId(user.getUid());
-//        userProfileDto.setToken(user.getToken());
-//        userProfileDto.setTotalTryon(totalTryOn);
-//        userProfileDto.setTotalGenerate(user.getTotalGenerate());
-//        userProfileDto.setRedeemedReferral(user.getReedemedReferral());
-//        userProfileDto.setReferral(referralMapper.toDto(user.getReferral()));
-//
-//        return userProfileDto;
-//    }
+
 
     @Override
-    public UserDto updateTotalGenerate(String uid, UserDto updatedUser) {
+    public UserDto updateTotalGenerate(String uid) {
 
         User user = userRepository.findById(uid).orElseThrow(
                 () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
         );
 
-        user.setTotalGenerate(updatedUser.getTotalGenerate());
+        user.setTotalGenerate(user.getTotalGenerate() + 1);
 
         User updatedUserObj = userRepository.save(user);
 
@@ -201,6 +183,24 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         referralRepository.save(referral);
 
+        return userMapper.toDto(user);
+    }
+
+
+    @Override
+    public UserDto updateDashboard(String uid) {
+        User user = userRepository.findById(uid).orElseThrow(
+                () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
+        );
+
+        int totalGenerate = singleGarmentRepository.countByUserUid(uid) + doubleGarmentRepository.countByUserUid(uid);
+//        int totalUploadedGarment = singleGarmentRepository.countByUserUid(uid) + (doubleGarmentRepository.countByUserUid(uid) * 2);
+        long totalInvite = referralService.getTotalReedemedReferral(uid);
+
+        user.setToken(user.getToken());
+        user.setTotalTryon(totalGenerate);
+        user.getReferral().setTotalUsed(totalInvite);
+        userRepository.save(user);
         return userMapper.toDto(user);
     }
 }

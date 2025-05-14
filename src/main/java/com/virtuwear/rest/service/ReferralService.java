@@ -17,4 +17,7 @@ public interface ReferralService {
     ReferralDto getReferralByCode(String referralCode);
 
     List<ReferralDto> getAllReferrals();
+
+    Integer getTotalReedemedReferral(String referralCode);
+
 }

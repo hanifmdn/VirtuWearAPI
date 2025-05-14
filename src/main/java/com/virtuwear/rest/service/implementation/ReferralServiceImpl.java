@@ -8,12 +8,14 @@ import com.virtuwear.rest.exception.ResourceNotFoundException;
 import com.virtuwear.rest.mapper.ReferralMapper;
 import com.virtuwear.rest.mapper.UserMapper;
 import com.virtuwear.rest.repository.ReferralRepository;
+import com.virtuwear.rest.repository.UserRepository;
 import com.virtuwear.rest.service.ReferralService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.module.ResolutionException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -25,7 +27,8 @@ public class ReferralServiceImpl implements ReferralService {
     private final ReferralRepository referralRepository;
     @Autowired
     private final ReferralMapper referralMapper;
-
+    @Autowired
+    private final UserRepository userRepository;
 
     //  Update TotalUsed
     @Override
@@ -64,6 +67,16 @@ public class ReferralServiceImpl implements ReferralService {
         List<Referral> referrals = referralRepository.findAll();
         return referralMapper.toDtoList(referrals);
     }
+    @Override
+    public Integer getTotalReedemedReferral(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResolutionException("User is not exists with given uid : " + userId));
+
+        String refCode = user.getReferral().getReferralCode();
+
+        return userRepository.countByReedemedReferral(refCode);
+    }
+
 
 
 
