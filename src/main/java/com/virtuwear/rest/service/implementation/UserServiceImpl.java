@@ -134,28 +134,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(updatedUserObj);
     }
 
-//    public Integer getTotalGarmentCountByUserId(String userId) {
-//        Integer single = singleGarmentRepository.countByUId(userId);
-//        Integer dbl = doubleGarmentRepository.countByUId(userId);
-//        return single + dbl;
-//    }
-//
-//    @Override
-//    public UserProfileDto getProfile(String uid) {
-//        UserProfileDto userProfileDto = new UserProfileDto();
-//        User user = userRepository.findById(uid).orElseThrow(
-//                () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
-//        );
-//
-//        Integer totalTryOn = getTotalGarmentCountByUserId(user.getUid());
-//        userProfileDto.setToken(user.getToken());
-//        userProfileDto.setTotalTryon(totalTryOn);
-//        userProfileDto.setTotalGenerate(user.getTotalGenerate());
-//        userProfileDto.setRedeemedReferral(user.getReedemedReferral());
-//        userProfileDto.setReferral(referralMapper.toDto(user.getReferral()));
-//
-//        return userProfileDto;
-//    }
+
 
     @Override
     public UserDto updateTotalGenerate(String uid) {
