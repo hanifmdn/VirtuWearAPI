@@ -1,6 +1,5 @@
 package com.virtuwear.rest.mapper;
 
-import com.virtuwear.rest.dto.UserDto;
 import com.virtuwear.rest.dto.UserProfileDto;
 import com.virtuwear.rest.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,8 @@ public class UserProfileMapper {
     public UserProfileDto toDto(User user) {
         return new UserProfileDto(
                 user.getToken(),
-                user.getTotalTryon(),
                 user.getTotalGenerate(),
-                user.getReedemedReferral(),
+                user.getRedeemedReferral(),
                 user.getReferral() != null ? referralMapper.toDto(user.getReferral()) : null
         );
     }

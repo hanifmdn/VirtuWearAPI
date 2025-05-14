@@ -1,7 +1,6 @@
 package com.virtuwear.rest.service.implementation;
 
 import com.virtuwear.rest.dto.UserDto;
-import com.virtuwear.rest.dto.UserProfileDto;
 import com.virtuwear.rest.entity.Referral;
 import com.virtuwear.rest.entity.User;
 import com.virtuwear.rest.exception.InvalidOperationException;
@@ -9,7 +8,6 @@ import com.virtuwear.rest.exception.ResourceNotFoundException;
 import com.virtuwear.rest.mapper.ReferralMapper;
 import com.virtuwear.rest.mapper.UserMapper;
 import com.virtuwear.rest.mapper.UserProfileMapper;
-import com.virtuwear.rest.repository.DoubleGarmentRepository;
 import com.virtuwear.rest.repository.ReferralRepository;
 import com.virtuwear.rest.repository.SingleGarmentRepository;
 import com.virtuwear.rest.repository.UserRepository;
@@ -41,9 +39,6 @@ public class UserServiceImpl implements UserService {
     private SingleGarmentRepository singleGarmentRepository;
 
     @Autowired
-    private DoubleGarmentRepository doubleGarmentRepository;
-
-    @Autowired
     private UserMapper userMapper;
 
     @Autowired
@@ -58,11 +53,9 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toEntity(userDto);
         user.setUid(userDto.getUid());
         user.setEmail(userDto.getEmail());
-        user.setName(userDto.getName());
         user.setToken(userDto.getToken());
-        user.setTotalTryon(userDto.getTotalTryon());
         user.setTotalGenerate(userDto.getTotalGenerate());
-        user.setReedemedReferral(userDto.getRedeemedReferral());
+        user.setRedeemedReferral(userDto.getRedeemedReferral());
 
         String referralCode = generateUniqueReferralCode();
 
@@ -123,7 +116,6 @@ public class UserServiceImpl implements UserService {
 
         user.setToken(updatedUser.getToken());
         user.setTotalGenerate(updatedUser.getTotalGenerate());
-        user.setTotalTryon(updatedUser.getTotalTryon());
 
         User updatedUserObj = userRepository.save(user);
 
@@ -190,11 +182,11 @@ public class UserServiceImpl implements UserService {
             throw new InvalidOperationException("Cannot redeem your own referral.");
         }
 
-        if (user.getReedemedReferral() != null) {
+        if (user.getRedeemedReferral() != null) {
             throw new InvalidOperationException("User has already redeemed a referral.");
         }
 
-        user.setReedemedReferral(referralCode);
+        user.setRedeemedReferral(referralCode);
         referral.setTotalUsed(referral.getTotalUsed() + 1);
         referral.setCooldown(Timestamp.valueOf(LocalDateTime.now().plusDays(7)));
 

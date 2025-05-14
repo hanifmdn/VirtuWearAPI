@@ -1,12 +1,12 @@
 package com.virtuwear.rest.entity;
 
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,32 +14,30 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "garment")
+@NoArgsConstructor
+@Entity(name = "model")
 
-public class Garment {
+public class Model {
     @Id
-    @Column(name = "garment_image", nullable = false, unique = true)
-    private String garmentImage;
+    @Column(name = "model_image",nullable = false,unique = true)
+    private String modelImage;
 
-    // Date
-    @Column(name = "created_date", updatable = false)
+    @Column(name = "created_date")
     private Timestamp createdDate;
 
     @Column(name = "updated_date")
     private Timestamp updatedDate;
 
     @PrePersist
-    protected void onCreate() {
+    protected void onCreate(){
         Timestamp now = Timestamp.valueOf(LocalDateTime.now());
         createdDate = now;
         updatedDate = now;
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    protected void onUpdate(){
         updatedDate = Timestamp.valueOf(LocalDateTime.now());
     }
 
@@ -47,6 +45,6 @@ public class Garment {
     @JoinColumn(name = "user_uid", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "garment")
+    @OneToMany(mappedBy = "model")
     private List<Tryon> tryon = new ArrayList<>();
 }

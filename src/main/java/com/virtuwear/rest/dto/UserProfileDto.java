@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserProfileDto {
     private int token;
-    private int totalTryon;
     private int totalGenerate;
     private String redeemedReferral;
     private ReferralDto referral;
+
 }

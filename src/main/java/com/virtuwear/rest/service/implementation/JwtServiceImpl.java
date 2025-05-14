@@ -16,7 +16,6 @@ public class JwtServiceImpl implements JwtService {
         return Jwts.builder()
                 .setSubject(userDto.getUid())
                 .claim("email", userDto.getEmail())
-                .claim("name", userDto.getName())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // Berlaku 1 jam
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)

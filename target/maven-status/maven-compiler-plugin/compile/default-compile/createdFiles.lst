@@ -15,11 +15,10 @@ com\virtuwear\rest\service\UserService.class
 com\virtuwear\rest\dto\KlingAiRequestDto.class
 com\virtuwear\rest\mapper\SingleGarmentMapper.class
 com\virtuwear\rest\dto\KlingAiCreateResponseDto.class
-com\virtuwear\rest\repository\DoubleGarmentRepository.class
 com\virtuwear\rest\repository\SingleGarmentRepository.class
 com\virtuwear\rest\dto\KlingAiResponseDto$DataDto.class
 com\virtuwear\rest\dto\KlingAiResponseDto.class
-com\virtuwear\rest\service\implementation\DoubleGarmentImpl.class
+com\virtuwear\rest\entity\Tryon.class
 com\virtuwear\rest\controller\SGController.class
 com\virtuwear\rest\dto\KlingAiSingleTaskResponseDto$TaskResult.class
 com\virtuwear\rest\dto\KlingAiResponseDto$TaskResult.class
@@ -27,10 +26,10 @@ com\virtuwear\rest\config\AppConfig.class
 com\virtuwear\rest\dto\KlingAiListTaskResponseDto$Image.class
 com\virtuwear\rest\dto\KlingAiSingleTaskResponseDto$DataDto.class
 com\virtuwear\rest\dto\KlingAiSingleTaskResponseDto.class
+com\virtuwear\rest\entity\Garment.class
 com\virtuwear\rest\utility\JwtUtilTest.class
 com\virtuwear\rest\dto\KlingAiResponseDto$Image.class
 com\virtuwear\rest\dto\UserDto.class
-com\virtuwear\rest\entity\DoubleGarment.class
 com\virtuwear\rest\service\implementation\ReferralServiceImpl.class
 com\virtuwear\rest\dto\KlingAiCreateResponseDto$DataDto.class
 com\virtuwear\rest\entity\User.class
@@ -48,11 +47,8 @@ com\virtuwear\rest\controller\KlingAiController.class
 com\virtuwear\rest\service\implementation\JwtServiceImpl.class
 com\virtuwear\rest\controller\UserController.class
 com\virtuwear\rest\utility\ReferralCodeGenerator.class
+com\virtuwear\rest\entity\Model.class
 com\virtuwear\rest\config\FirebaseConfig.class
 com\virtuwear\rest\entity\SingleGarment.class
 com\virtuwear\rest\service\implementation\UserServiceImpl.class
-com\virtuwear\rest\dto\DoubleGarmentDto.class
-com\virtuwear\rest\controller\DoubleGarmentController.class
 com\virtuwear\rest\service\SingleGarmentService.class
-com\virtuwear\rest\mapper\DoubleGarmentMapper.class
-com\virtuwear\rest\service\DoubleGarmentService.class

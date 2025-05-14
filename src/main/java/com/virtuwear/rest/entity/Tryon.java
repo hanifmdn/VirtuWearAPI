@@ -1,6 +1,5 @@
 package com.virtuwear.rest.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,20 +8,29 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-@Getter
 @Setter
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
-@Entity
-@Table(name = "garment")
-
-public class Garment {
+@NoArgsConstructor
+@Entity(name = "tryon")
+public class Tryon {
     @Id
-    @Column(name = "garment_image", nullable = false, unique = true)
-    private String garmentImage;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, unique = true)
+    private Long id;
+
+    @Column(name = "result_image")
+    private String resultImage;
+
+    @Column(name = "outfit_name")
+    private String outfitName;
+
+    @Column(name = "note")
+    private String note;
+
+    @Column(name = "is_bookmark")
+    private String isBookmark;
 
     // Date
     @Column(name = "created_date", updatable = false)
@@ -30,6 +38,7 @@ public class Garment {
 
     @Column(name = "updated_date")
     private Timestamp updatedDate;
+
 
     @PrePersist
     protected void onCreate() {
@@ -44,9 +53,14 @@ public class Garment {
     }
 
     @ManyToOne
+    @JoinColumn(name = "garment",nullable = false)
+    private Garment garment;
+
+    @ManyToOne
+    @JoinColumn(name = "model",nullable = false)
+    private Model model;
+
+    @ManyToOne
     @JoinColumn(name = "user_uid", nullable = false)
     private User user;
-
-    @OneToMany(mappedBy = "garment")
-    private List<Tryon> tryon = new ArrayList<>();
 }
