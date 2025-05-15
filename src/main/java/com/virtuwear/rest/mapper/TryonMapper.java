@@ -23,7 +23,6 @@ public class TryonMapper {
 
     public Tryon toEntity(TryonDto dto, User user, Garment garment, Model model) {
         Tryon tryon = new Tryon();
-        tryon.setId(dto.getId());
         tryon.setResultImage(dto.getResultImage());
         tryon.setOutfitName(dto.getOutfitName());
         tryon.setNote(dto.getNote());
