@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "trasaction")
+@Table(name = "transaction")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +34,7 @@ public class Transaction {
     private TransactionType transactionType;
 
     @Column(nullable = false)
-    private int totalCoin;
-
-    @Column(nullable = false)
-    private Timestamp transactionDate;
+    private int amount;
 
     // Date
     @Column(name = "created_date", updatable = false)
