@@ -34,4 +34,6 @@ public interface TryonService {
     List<TryonDto> getAllBookmarked(String userUid);
 
     List<TryonDto> findByCreatedAt(Long createdAt);
+
+
 }
