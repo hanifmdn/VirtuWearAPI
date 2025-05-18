@@ -100,14 +100,4 @@ public class SGController {
         List<SingleGarmentDto> garments = singleGarmentService.findByCreatedAt(timeMillis);
         return ResponseEntity.ok(garments);
     }
-
-
-
-
-
-
-
-
-
-
 }

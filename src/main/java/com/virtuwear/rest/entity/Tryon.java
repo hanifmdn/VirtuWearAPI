@@ -30,7 +30,7 @@ public class Tryon {
     private String note;
 
     @Column(name = "is_bookmark")
-    private String isBookmark;
+    private boolean isBookmark;
 
     // Date
     @Column(name = "created_date", updatable = false)

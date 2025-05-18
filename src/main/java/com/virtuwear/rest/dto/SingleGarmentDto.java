@@ -21,4 +21,3 @@ public class SingleGarmentDto {
     private boolean isBookmark;
     private String userId; // ID User sebagai foreign key
 }
-
