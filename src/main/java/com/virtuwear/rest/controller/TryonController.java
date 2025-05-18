@@ -27,6 +27,11 @@ public class TryonController {
         return ResponseEntity.ok(tryonService.searchByOutfitName(outfitName));
     }
 
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<TryonDto> getTryonById(@PathVariable Long id) {
+        return ResponseEntity.ok(tryonService.getById(id));
+    }
+
     @PostMapping
     public ResponseEntity<TryonDto> createTryon(@RequestBody TryonDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(tryonService.createTryon(dto));
