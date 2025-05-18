@@ -35,10 +35,12 @@ public class User {
     @Column(name = "redeemed_referral")
     private String redeemedReferral;
 
-
     // One-to-One dengan Referral (1 user hanya punya 1 referral)
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Referral referral;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Coin coin;
 
     // Relationship One to Many dengan SingleGarment
     @OneToMany(mappedBy = "user")
@@ -50,13 +52,13 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Garment> garments = new ArrayList<>();
 
+
     // Date
     @Column(name = "created_date", updatable = false)
     private Timestamp createdDate;
 
     @Column(name = "updated_date")
     private Timestamp updatedDate;
-
 
     @PrePersist
     protected void onCreate() {

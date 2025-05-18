@@ -31,6 +31,11 @@ public class KlingAiServiceImpl implements KlingAiService {
 
     // Membuat Task Try-On
     public KlingAiCreateResponseDto createTryOnTask(KlingAiRequestDto requestDto) {
+        // Implementasi coin
+        int generatePrice = 20;
+
+
+
         String token = JwtUtilTest.generateToken(accessKey, secretKey);
         System.out.println("Generated Token: " + token);
 

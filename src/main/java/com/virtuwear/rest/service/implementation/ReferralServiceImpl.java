@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Ref;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class ReferralServiceImpl implements ReferralService {
     private final ReferralRepository referralRepository;
     @Autowired
     private final ReferralMapper referralMapper;
+
 
 
     //  Update TotalUsed
@@ -45,7 +47,6 @@ public class ReferralServiceImpl implements ReferralService {
         Referral referral = referralRepository.findById(referralCode)
                 .orElseThrow(() -> new RuntimeException("Referral not found"));
 
-        referral.setCooldown(cooldown);
         referral = referralRepository.save(referral);
 
         return referralMapper.toDto(referral);
