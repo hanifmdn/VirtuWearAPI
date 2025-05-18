@@ -1,5 +1,6 @@
 package com.virtuwear.rest.dto;
 
+import com.virtuwear.rest.entity.Coin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,5 @@ public class UserDto {
     private int totalGenerate;
     private String redeemedReferral;
     private ReferralDto referral;
+    private CoinDto coin;
 }

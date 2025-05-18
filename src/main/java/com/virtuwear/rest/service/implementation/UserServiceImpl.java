@@ -1,6 +1,7 @@
 package com.virtuwear.rest.service.implementation;
 
 import com.virtuwear.rest.dto.UserDto;
+import com.virtuwear.rest.entity.Coin;
 import com.virtuwear.rest.entity.Referral;
 import com.virtuwear.rest.entity.User;
 import com.virtuwear.rest.exception.InvalidOperationException;
@@ -11,6 +12,7 @@ import com.virtuwear.rest.mapper.UserProfileMapper;
 import com.virtuwear.rest.repository.ReferralRepository;
 import com.virtuwear.rest.repository.SingleGarmentRepository;
 import com.virtuwear.rest.repository.UserRepository;
+import com.virtuwear.rest.service.CoinService;
 import com.virtuwear.rest.service.UserService;
 import com.virtuwear.rest.utility.ReferralCodeGenerator;
 import jakarta.transaction.Transactional;
@@ -22,6 +24,8 @@ import java.lang.module.ResolutionException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -36,7 +40,7 @@ public class UserServiceImpl implements UserService {
     private ReferralRepository referralRepository;
 
     @Autowired
-    private SingleGarmentRepository singleGarmentRepository;
+    private CoinService coinService;
 
     @Autowired
     private UserMapper userMapper;
@@ -50,25 +54,44 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto createUser(UserDto userDto) {
+        Optional<User> existingUser = userRepository.findById(userDto.getUid());
+
+        if (existingUser.isPresent()) {
+            throw new IllegalStateException("User already exists with UID: " + userDto.getUid());
+        }
+
         User user = userMapper.toEntity(userDto);
         user.setUid(userDto.getUid());
         user.setEmail(userDto.getEmail());
         user.setToken(userDto.getToken());
         user.setTotalGenerate(userDto.getTotalGenerate());
         user.setRedeemedReferral(userDto.getRedeemedReferral());
+        userRepository.save(user);
 
         String referralCode = generateUniqueReferralCode();
 
-
+        // kayanya disini akar dari setiap ada user login referral nya ganti ganti
         Referral referral = new Referral();
         referral.setReferralCode(referralCode);
         referral.setTotalUsed(0L);
         referral.setUser(user);
-
         user.setReferral(referral);
 
-        userRepository.save(user);
-        return userMapper.toDto(user);
+        //disini manggil createCoin dengan parameter User
+//        coinService.createCoin(user);
+        final int coinBalance = 20;
+        LocalDateTime nextMonth = LocalDateTime.now().plusMonths(1);
+        Timestamp oneMonthValid = Timestamp.valueOf(nextMonth);
+
+        Coin coin = new Coin();
+        coin.setUser(user);
+        coin.setCoinBalance(coinBalance);
+        coin.setValidUntil(oneMonthValid);
+        user.setCoin(coin);
+
+
+        User savedUser = userRepository.save(user);
+        return userMapper.toDto(savedUser);
     }
 
     private String generateUniqueReferralCode() {
@@ -123,28 +146,6 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(updatedUserObj);
     }
 
-//    public Integer getTotalGarmentCountByUserId(String userId) {
-//        Integer single = singleGarmentRepository.countByUId(userId);
-//        Integer dbl = doubleGarmentRepository.countByUId(userId);
-//        return single + dbl;
-//    }
-//
-//    @Override
-//    public UserProfileDto getProfile(String uid) {
-//        UserProfileDto userProfileDto = new UserProfileDto();
-//        User user = userRepository.findById(uid).orElseThrow(
-//                () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
-//        );
-//
-//        Integer totalTryOn = getTotalGarmentCountByUserId(user.getUid());
-//        userProfileDto.setToken(user.getToken());
-//        userProfileDto.setTotalTryon(totalTryOn);
-//        userProfileDto.setTotalGenerate(user.getTotalGenerate());
-//        userProfileDto.setRedeemedReferral(user.getReedemedReferral());
-//        userProfileDto.setReferral(referralMapper.toDto(user.getReferral()));
-//
-//        return userProfileDto;
-//    }
 
     @Override
     public UserDto updateTotalGenerate(String uid, UserDto updatedUser) {
@@ -178,8 +179,13 @@ public class UserServiceImpl implements UserService {
         Referral referral = referralRepository.findById(referralCode)
                 .orElseThrow(() -> new ResourceNotFoundException("Referral not found with code: " + referralCode));
 
+
         if (referral.getUser().getUid().equals(uid)) {
             throw new InvalidOperationException("Cannot redeem your own referral.");
+        }
+
+        if (Objects.equals(referral.getUser().getRedeemedReferral(), user.getReferral().getReferralCode())) {
+            throw new InvalidOperationException("User cannot redeem back each other code.");
         }
 
         if (user.getRedeemedReferral() != null) {
@@ -188,7 +194,6 @@ public class UserServiceImpl implements UserService {
 
         user.setRedeemedReferral(referralCode);
         referral.setTotalUsed(referral.getTotalUsed() + 1);
-        referral.setCooldown(Timestamp.valueOf(LocalDateTime.now().plusDays(7)));
 
         userRepository.save(user);
         referralRepository.save(referral);

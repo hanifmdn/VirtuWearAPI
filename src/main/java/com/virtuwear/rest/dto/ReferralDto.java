@@ -15,5 +15,4 @@ import java.sql.Timestamp;
 public class ReferralDto {
     private String referralCode;
     private Long totalUsed;
-    private Timestamp cooldown;
 }

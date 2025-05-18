@@ -25,9 +25,6 @@ public class Referral {
     @Column(name = "total_used")
     private Long totalUsed;
 
-    @Column(name = "cooldown")
-    private Timestamp cooldown;
-
     @OneToOne
     @JoinColumn(name = "user_uid", referencedColumnName = "uid", nullable = false, unique = true)
     private User user;
