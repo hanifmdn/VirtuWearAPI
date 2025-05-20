@@ -6,5 +6,6 @@ import com.virtuwear.rest.entity.User;
 public interface CoinService {
     CoinDto createCoin (User user);
 
+    void addRewardCoin(User user, Integer reward);
 
 }
