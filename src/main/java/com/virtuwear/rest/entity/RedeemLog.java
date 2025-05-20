@@ -1,6 +1,5 @@
 package com.virtuwear.rest.entity;
 
-import com.virtuwear.rest.utility.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,32 +11,24 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "transaction")
-public class Transaction {
+@NoArgsConstructor
+@Entity(name = "RedeemLog")
+public class RedeemLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
-    private Long transactionId;
+    private Long id;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "user_uid", referencedColumnName = "user_uid"),
-            @JoinColumn(name = "coin_id", referencedColumnName = "coin_id")
-    })
-    private Coin coin;
+    @JoinColumn(name = "inviter_email")
+    private User inviterEmail;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TransactionType transactionType;
-
-    @Column(nullable = false)
-    private int amount;
+    @ManyToOne
+    @JoinColumn(name = "invited_email")
+    private User invitedEmail;
 
     // Date
-    @Column(name = "created_date", updatable = false)
+    @Column(name = "created_date")
     private Timestamp createdDate;
 
     @Column(name = "updated_date")
@@ -54,4 +45,5 @@ public class Transaction {
     protected void onUpdate() {
         updatedDate = Timestamp.valueOf(LocalDateTime.now());
     }
+
 }

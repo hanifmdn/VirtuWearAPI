@@ -52,6 +52,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Garment> garments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "inviterEmail")
+    private List<RedeemLog> sentInvitations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "invitedEmail")
+    private List<RedeemLog> receivedInvitations = new ArrayList<>();
+
 
     // Date
     @Column(name = "created_date", updatable = false)

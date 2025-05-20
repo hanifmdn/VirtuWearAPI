@@ -9,10 +9,12 @@ import com.virtuwear.rest.exception.ResourceNotFoundException;
 import com.virtuwear.rest.mapper.ReferralMapper;
 import com.virtuwear.rest.mapper.UserMapper;
 import com.virtuwear.rest.mapper.UserProfileMapper;
+import com.virtuwear.rest.repository.RedeemLogRepository;
 import com.virtuwear.rest.repository.ReferralRepository;
-import com.virtuwear.rest.repository.SingleGarmentRepository;
 import com.virtuwear.rest.repository.UserRepository;
 import com.virtuwear.rest.service.CoinService;
+import com.virtuwear.rest.service.RedeemLogService;
+import com.virtuwear.rest.service.ReferralService;
 import com.virtuwear.rest.service.UserService;
 import com.virtuwear.rest.utility.ReferralCodeGenerator;
 import jakarta.transaction.Transactional;
@@ -51,6 +53,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserProfileMapper userProfileMapper;
 
+    @Autowired
+    private RedeemLogRepository redeemLogRepository;
+
+    @Autowired
+    private RedeemLogService redeemLogService;
+
+    @Autowired
+    private ReferralService referralService;
+
     @Override
     @Transactional
     public UserDto createUser(UserDto userDto) {
@@ -75,6 +86,7 @@ public class UserServiceImpl implements UserService {
         referral.setReferralCode(referralCode);
         referral.setTotalUsed(0L);
         referral.setUser(user);
+        referral.setMilestone(0);
         user.setReferral(referral);
 
         //disini manggil createCoin dengan parameter User
@@ -192,11 +204,24 @@ public class UserServiceImpl implements UserService {
             throw new InvalidOperationException("User has already redeemed a referral.");
         }
 
+        if (redeemLogRepository.existsByInviterEmail_EmailAndInvitedEmail_Email(referral.getUser().getEmail(), user.getEmail())) {
+            throw new IllegalStateException("This email has already redeemed a referral .");
+        }
+
         user.setRedeemedReferral(referralCode);
         referral.setTotalUsed(referral.getTotalUsed() + 1);
 
         userRepository.save(user);
         referralRepository.save(referral);
+
+        // simpan ke log
+        redeemLogService.redeemLog(referral.getUser(), user);
+
+        // check reward
+        Long totalInvitation = referral.getTotalUsed();
+        referralService.checkRewardMilestone(referral, totalInvitation);
+
+
 
         return userMapper.toDto(user);
     }

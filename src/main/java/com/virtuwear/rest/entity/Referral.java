@@ -25,6 +25,9 @@ public class Referral {
     @Column(name = "total_used")
     private Long totalUsed;
 
+    @Column(name = "milestone")
+    private Integer milestone;
+
     @OneToOne
     @JoinColumn(name = "user_uid", referencedColumnName = "uid", nullable = false, unique = true)
     private User user;

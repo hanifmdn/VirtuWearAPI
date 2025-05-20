@@ -2,6 +2,7 @@ package com.virtuwear.rest.service;
 
 
 import com.virtuwear.rest.dto.ReferralDto;
+import com.virtuwear.rest.entity.Referral;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -17,4 +18,11 @@ public interface ReferralService {
     ReferralDto getReferralByCode(String referralCode);
 
     List<ReferralDto> getAllReferrals();
+
+    void checkRewardMilestone(Referral referral, Long totalInvitation);
+
+
+
+
+
 }
