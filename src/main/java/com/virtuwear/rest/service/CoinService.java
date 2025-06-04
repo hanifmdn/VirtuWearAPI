@@ -8,4 +8,6 @@ public interface CoinService {
 
     void addRewardCoin(User user, Integer reward);
 
+    void addPurchaseCoin(String userUid, int coins);
+
 }

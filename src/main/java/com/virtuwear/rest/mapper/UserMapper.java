@@ -18,7 +18,6 @@ public class UserMapper {
         return new UserDto(
                 user.getUid(),
                 user.getEmail(),
-                user.getToken(),
                 user.getTotalGenerate(),
                 user.getRedeemedReferral(),
                 user.getReferral() != null ? referralMapper.toDto(user.getReferral()) : null,
@@ -30,7 +29,6 @@ public class UserMapper {
         User user = new User();
         user.setUid(userDto.getUid());
         user.setEmail(userDto.getEmail());
-        user.setToken(userDto.getToken());
         user.setTotalGenerate(userDto.getTotalGenerate());
         user.setRedeemedReferral(userDto.getRedeemedReferral());
         return user;

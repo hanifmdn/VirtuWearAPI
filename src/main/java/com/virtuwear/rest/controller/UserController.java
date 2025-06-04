@@ -31,12 +31,12 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
-//    @GetMapping("profile/{uid}")
-//    public ResponseEntity<UserProfileDto> getUserProfileByUID(@PathVariable("uid") String uid) {
-//        UserProfileDto userProfileDto = userService.getProfile(uid);
-//        return ResponseEntity.ok(userProfileDto);
-//
-//    }
+    @GetMapping("profile/{uid}")
+    public ResponseEntity<UserProfileDto> getUserProfileByUID(@PathVariable("uid") String uid) {
+        UserProfileDto userProfileDto = userService.getProfile(uid);
+        return ResponseEntity.ok(userProfileDto);
+
+    }
 
     // Get All User REST API
     @GetMapping

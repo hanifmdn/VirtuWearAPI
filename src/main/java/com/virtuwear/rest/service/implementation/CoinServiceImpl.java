@@ -57,4 +57,20 @@ public class CoinServiceImpl implements CoinService {
 
         coinMapper.toDto(coinRepository.save(coin));
     }
+
+    @Override
+    public void addPurchaseCoin(String userUid, int coins) {
+        Coin coin = coinRepository.findByUserUid(userUid)
+                .orElseThrow(() -> new ResourceNotFoundException("Coin not found with UID: " + userUid));
+
+        Transaction transaction = new Transaction();
+        transaction.setAmount(coins);
+        transaction.setTransactionType(TransactionType.PURCHASE);
+        transaction.setCoin(coin);
+        transactionRepository.save(transaction);
+
+        coin.setCoinBalance(coin.getCoinBalance() + coins);
+        coinMapper.toDto(coinRepository.save(coin));
+    }
+
 }

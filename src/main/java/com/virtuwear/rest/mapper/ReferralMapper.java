@@ -11,7 +11,8 @@ public class ReferralMapper {
     public ReferralDto toDto(Referral referral) {
         return new ReferralDto(
                 referral.getReferralCode(),
-                referral.getTotalUsed()
+                referral.getTotalUsed(),
+                referral.getMilestone()
         );
 
     }
@@ -20,6 +21,7 @@ public class ReferralMapper {
         Referral referral = new Referral();
         referral.setReferralCode(referralDto.getReferralCode());
         referral.setTotalUsed(referralDto.getTotalUsed());
+        referral.setMilestone(referralDto.getMilestone());
         return referral;
 
     }
