@@ -23,6 +23,11 @@ public class AuthController {
     @Autowired
     private JwtService jwtService;
 
+    @GetMapping("/hello")
+    public String hello(){
+        return "hello";
+    }
+
     // Perbaikan: Terima uid, email, dan name, bukan idToken
     @PostMapping("/firebase")
     public ResponseEntity<?> authenticateWithFirebase(@RequestBody UserDto user) {

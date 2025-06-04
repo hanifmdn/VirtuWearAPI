@@ -100,4 +100,10 @@ public class SGController {
         List<SingleGarmentDto> garments = singleGarmentService.findByCreatedAt(timeMillis);
         return ResponseEntity.ok(garments);
     }
+
+    @DeleteMapping("{uid}")
+    public ResponseEntity<Void> deleteAllByUserId(@PathVariable String userId){
+        singleGarmentService.deleteAllByUserId(userId);
+        return ResponseEntity.noContent().build();
+    }
 }

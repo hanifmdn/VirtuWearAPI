@@ -172,4 +172,10 @@ public class SingleGarmentImpl implements SingleGarmentService {
         List<SingleGarment> garments = singleGarmentRepository.findByCreatedDateBetween(startOfDay,endOfDay);
         return garments.stream().map(singleGarmentMapper::toDto).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteAllByUserId(String userId){
+        List<SingleGarment> singleGarment = singleGarmentRepository.findByUserUid(userId);
+        singleGarmentRepository.deleteAll(singleGarment);
+    }
 }
