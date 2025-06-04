@@ -1,6 +1,7 @@
 package com.virtuwear.rest.service.implementation;
 
 import com.virtuwear.rest.dto.UserDto;
+import com.virtuwear.rest.dto.UserProfileDto;
 import com.virtuwear.rest.entity.Coin;
 import com.virtuwear.rest.entity.Referral;
 import com.virtuwear.rest.entity.User;
@@ -8,10 +9,7 @@ import com.virtuwear.rest.exception.InvalidOperationException;
 import com.virtuwear.rest.exception.ResourceNotFoundException;
 import com.virtuwear.rest.mapper.ReferralMapper;
 import com.virtuwear.rest.mapper.UserMapper;
-import com.virtuwear.rest.mapper.UserProfileMapper;
-import com.virtuwear.rest.repository.RedeemLogRepository;
-import com.virtuwear.rest.repository.ReferralRepository;
-import com.virtuwear.rest.repository.UserRepository;
+import com.virtuwear.rest.repository.*;
 import com.virtuwear.rest.service.CoinService;
 import com.virtuwear.rest.service.RedeemLogService;
 import com.virtuwear.rest.service.ReferralService;
@@ -39,6 +37,10 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private TryonRepository tryonRepository;
+
+
+    @Autowired
     private ReferralRepository referralRepository;
 
     @Autowired
@@ -50,8 +52,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ReferralMapper referralMapper;
 
-    @Autowired
-    private UserProfileMapper userProfileMapper;
 
     @Autowired
     private RedeemLogRepository redeemLogRepository;
@@ -74,7 +74,6 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toEntity(userDto);
         user.setUid(userDto.getUid());
         user.setEmail(userDto.getEmail());
-        user.setToken(userDto.getToken());
         user.setTotalGenerate(userDto.getTotalGenerate());
         user.setRedeemedReferral(userDto.getRedeemedReferral());
         userRepository.save(user);
@@ -136,6 +135,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserProfileDto getProfile(String uid) {
+        User user = userRepository.findById(uid)
+                .orElseThrow(() -> new ResolutionException("User is not exists with given uid : " + uid));
+
+
+        UserProfileDto userProfileDto = new UserProfileDto();
+        userProfileDto.setUserDto(userMapper.toDto(user));
+        userProfileDto.setTotalTryOn(tryonRepository.countByUserUid(uid));
+        return userProfileDto;
+    }
+
+    @Override
     public List<UserDto> getAllUser() {
         List<User> users = userRepository.findAll();
         return users.stream().map((user) -> userMapper.toDto(user))
@@ -149,7 +160,6 @@ public class UserServiceImpl implements UserService {
                 () -> new ResourceNotFoundException("User is not exists with the given uid: " + uid)
         );
 
-        user.setToken(updatedUser.getToken());
         user.setTotalGenerate(updatedUser.getTotalGenerate());
 
         User updatedUserObj = userRepository.save(user);
@@ -220,8 +230,6 @@ public class UserServiceImpl implements UserService {
         // check reward
         Long totalInvitation = referral.getTotalUsed();
         referralService.checkRewardMilestone(referral, totalInvitation);
-
-
 
         return userMapper.toDto(user);
     }

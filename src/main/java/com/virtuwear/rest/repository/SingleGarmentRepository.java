@@ -14,4 +14,7 @@ public interface SingleGarmentRepository extends JpaRepository<SingleGarment, Lo
     List<SingleGarment> findByUserUidAndIsBookmarkTrue(String userId);
 
     List<SingleGarment> findByCreatedDateBetween(Timestamp start, Timestamp end);
+
+    int countByUserUid(String userUid);
+
 }

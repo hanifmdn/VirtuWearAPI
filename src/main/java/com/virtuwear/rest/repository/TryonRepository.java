@@ -15,4 +15,7 @@ public interface TryonRepository extends JpaRepository<Tryon, Long> {
     List<Tryon> findByUserUidAndIsBookmarkTrue(String userUid);
 
     List<Tryon> findByCreatedDateBetween(Timestamp start, Timestamp end);
+
+    int countByUserUid(String userUid);
+
 }

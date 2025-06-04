@@ -16,7 +16,7 @@ public interface UserService {
 
     UserDto updateUser(String uid, UserDto updatedUser);
 
-//    UserProfileDto getProfile(String uid);
+    UserProfileDto getProfile(String uid);
 
     UserDto updateTotalGenerate(String uid, UserDto updatedUser);
 

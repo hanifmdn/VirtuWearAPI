@@ -26,9 +26,6 @@ public class User {
     @Column (name = "email", unique = true)
     private String email;
 
-    @Column(name = "token")
-    private int token;
-
     @Column(name = "total_generate")
     private int totalGenerate;
 

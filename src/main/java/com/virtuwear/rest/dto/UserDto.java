@@ -14,7 +14,6 @@ import lombok.Setter;
 public class UserDto {
     private String uid;
     private String email;
-    private int token;
     private int totalGenerate;
     private String redeemedReferral;
     private ReferralDto referral;
