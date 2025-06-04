@@ -36,5 +36,6 @@ public interface SingleGarmentService {
     List<SingleGarmentDto> getAllBookmarked(String userId);
 
     List<SingleGarmentDto> findByCreatedAt(Long createdAt);
-    ;
+
+    void deleteAllByUserId(String userId);
 }
