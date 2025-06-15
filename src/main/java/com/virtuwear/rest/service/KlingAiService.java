@@ -11,5 +11,5 @@ public interface KlingAiService {
 
     KlingAiSingleTaskResponseDto pollTryOnTaskStatus(String taskId, int maxRetries, int intervalSeconds);
 
-
+    String generateToken();
 }

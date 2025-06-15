@@ -2,13 +2,9 @@ package com.virtuwear.rest.controller;
 
 import com.virtuwear.rest.dto.PurchaseRequest;
 import com.virtuwear.rest.service.CoinService;
-import com.virtuwear.rest.service.GarmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -45,5 +41,4 @@ public class CoinController {
                 )
         );
     }
-
 }
