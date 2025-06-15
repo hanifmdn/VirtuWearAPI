@@ -1,6 +1,5 @@
 package com.virtuwear.rest.controller;
 
-import com.virtuwear.rest.dto.SingleGarmentDto;
 import com.virtuwear.rest.dto.TryonDto;
 import com.virtuwear.rest.service.TryonService;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +37,9 @@ public class TryonController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTryon(@PathVariable Long id) {
+    public ResponseEntity<String> deleteTryon(@PathVariable Long id) {
         tryonService.deleteTryon(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Tryon with id:"+ id + " deleted succesfully");
     }
 
     @PutMapping("/update/model/{id}")

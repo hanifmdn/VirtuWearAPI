@@ -8,7 +8,6 @@ import com.virtuwear.rest.exception.ResourceNotFoundException;
 import com.virtuwear.rest.mapper.CoinMapper;
 import com.virtuwear.rest.repository.CoinRepository;
 import com.virtuwear.rest.repository.TransactionRepository;
-import com.virtuwear.rest.repository.UserRepository;
 import com.virtuwear.rest.service.CoinService;
 import com.virtuwear.rest.utility.OneMonthFromNow;
 import com.virtuwear.rest.utility.TransactionType;
@@ -19,8 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class CoinServiceImpl implements CoinService {
-    @Autowired
-    private final UserRepository userRepository;
     @Autowired
     private final CoinMapper coinMapper;
     @Autowired
@@ -72,5 +69,4 @@ public class CoinServiceImpl implements CoinService {
         coin.setCoinBalance(coin.getCoinBalance() + coins);
         coinMapper.toDto(coinRepository.save(coin));
     }
-
 }

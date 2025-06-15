@@ -30,7 +30,7 @@ public class TransactionController {
     }
 
 
-    @PostMapping("/reduce/{userUid}")
+    @PutMapping("/reduce/{userUid}")
     public ResponseEntity<TransactionDto> reduceCoin(@PathVariable String userUid) {
         TransactionDto makeTransaction = transactionService.reduceCoin(userUid);
 
