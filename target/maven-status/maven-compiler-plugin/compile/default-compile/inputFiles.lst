@@ -1,6 +1,7 @@
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\config\AppConfig.java
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\config\FirebaseConfig.java
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\controller\AuthController.java
+C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\controller\CoinController.java
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\controller\GarmentController.java
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\controller\KlingAiController.java
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\controller\ModelController.java
@@ -18,6 +19,7 @@ C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\dto\Kl
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\dto\KlingAiResponseDto.java
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\dto\KlingAiSingleTaskResponseDto.java
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\dto\ModelDto.java
+C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\dto\PurchaseRequest.java
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\dto\ReferralDto.java
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\dto\SingleGarmentDto.java
 C:\KULIAH\tes\VirtuWearAPI2\VirtuWearAPI\src\main\java\com\virtuwear\rest\dto\TransactionDto.java

@@ -1,7 +1,6 @@
 com\virtuwear\rest\repository\GarmentRepository.class
 com\virtuwear\rest\service\TransactionService.class
 com\virtuwear\rest\exception\ResourceNotFoundException.class
-com\virtuwear\rest\mapper\UserProfileMapper.class
 com\virtuwear\rest\dto\KlingAiSingleTaskResponseDto$Image.class
 com\virtuwear\rest\exception\InvalidOperationException.class
 com\virtuwear\rest\entity\Transaction.class

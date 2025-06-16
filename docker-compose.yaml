@@ -24,12 +24,21 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/virtuwear
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: cucuklauk123
+
+      KLING_API_DOMAIN: https://api-singapore.klingai.com
+      KLING_API_ACCESS_KEY: AhKG3PrrtpPe8ARyGtKGbghRyR4TEptf
+      KLING_API_SECRET_KEY: CQhRnQFRAQPEmrJLae4QrrLMEQehDABB
+
+      SPRING_FLYWAY_ENABLED: true
+      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
+      SPRING_FLYWAY_BASELINE_ON_MIGRATE: true
     depends_on:
       - db
     ports:
       - "8080:8080"
     networks:
       - virtu-network
+    restart: unless-stopped
 
 volumes:
   pgdata:
